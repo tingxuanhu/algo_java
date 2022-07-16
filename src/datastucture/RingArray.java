@@ -6,17 +6,17 @@ public class RingArray {
 
     public static class MyQueue {
         private int[] arr;
-        private int pushi; // end
-        private int pooli; // begin
+        private int pushi; // begin
+        private int polli; // end
         private int size;
         private final int limit;
 
         public MyQueue(int limit) {
+            this.limit = limit;
             arr = new int[limit];
             pushi = 0;
-            pooli = 0;
+            polli = 0;
             size = 0;
-            this.limit = limit;
         }
 
         public void push(int value) {
@@ -26,23 +26,23 @@ public class RingArray {
             size++;
             arr[pushi] = value;
             pushi = nextIndex(pushi);
-
         }
 
-        public int pull() {
+        public int poll() {
             if (size == 0) {
                 throw new RuntimeException("The queue is empty");
             }
             size--;
-            int ans = arr[pooli];
-            pooli = nextIndex(pooli);
+            int ans = arr[polli];
+            polli = nextIndex(polli);
             return ans;
         }
 
-        public int nextIndex(int index) {
-            return index == limit - 1 ? 0 : index + 1;
+        public int nextIndex(int idx) {
+            return idx < limit - 1 ? idx + 1: 0;
         }
 
     }
+
 
 }
