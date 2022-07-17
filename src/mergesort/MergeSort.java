@@ -2,6 +2,7 @@ package mergesort;
 
 public class MergeSort {
 
+    // 递归实现
     public static void mergeSort1(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
@@ -39,6 +40,17 @@ public class MergeSort {
         for (i = 0; i < help.length; i++) {
             arr[l + i] = help[i];
         }
+
+    }
+
+    // 非递归写法
+    public static void mergeSort2(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        int step = 1;
+        for (int i = 0; i < )
 
     }
 
