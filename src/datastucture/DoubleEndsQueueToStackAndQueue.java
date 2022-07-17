@@ -8,23 +8,22 @@ import java.util.Stack;
 public class DoubleEndsQueueToStackAndQueue {
 
     public static class Node<T> {
-        private T value;
+        private final T value;
         private Node<T> last;
         private Node<T> next;
 
-        // 泛型的构造方法不是用尖括号
         public Node(T data) {
             this.value = data;
         }
     }
 
-    // 双向链表实现一个双端队列
+    // 双向链表实现双端队列
     public static class DoubleEndsQueue<T> {
         private Node<T> head;
         private Node<T> tail;
 
         public void pushFromHead(T value) {
-            Node<T> cur = new Node<>(value);
+            Node<T> cur = new Node<T>(value);
             if (head == null) {
                 head = cur;
                 tail = cur;
@@ -39,12 +38,11 @@ public class DoubleEndsQueueToStackAndQueue {
             Node<T> cur = new Node<T>(value);
             if (head == null) {
                 head = cur;
-                tail = cur;
             } else {
                 cur.last = tail;
                 tail.next = cur;
-                tail = cur;
             }
+            tail = cur;
         }
 
         public T popFromHead() {
@@ -87,9 +85,9 @@ public class DoubleEndsQueueToStackAndQueue {
     }
 
     public static class MyStack<T> {
-        private DoubleEndsQueue<T> stack;
+        private final DoubleEndsQueue<T> stack;
 
-        public MyStack(T value) {
+        public MyStack() {
             stack = new DoubleEndsQueue<T>();
         }
 
@@ -110,9 +108,8 @@ public class DoubleEndsQueueToStackAndQueue {
     public static class MyQueue<T> {
         private final DoubleEndsQueue<T> queue;
 
-        public MyQueue(T value) {
+        public MyQueue() {
             queue = new DoubleEndsQueue<T>();
-
         }
 
         public void offer(T value) {
@@ -133,7 +130,10 @@ public class DoubleEndsQueueToStackAndQueue {
         if (o1 == null && o2 == null) {
             return true;
         }
-        if ((o1 == null && o2 != null) || (o1 != null && o2 == null)) {
+        if (o1 == null && o2 != null) {
+            return false;
+        }
+        if (o1 != null && o2 == null) {
             return false;
         }
         return o1.equals(o2);
@@ -144,8 +144,8 @@ public class DoubleEndsQueueToStackAndQueue {
         int value = 10000;
         int testTime = 10000;
         for (int i = 0; i < testTime; i++) {
-            MyStack<Integer> myStack = new MyStack<Integer>();
-            MyQueue<Integer> myQueue = new MyQueue<Integer>();
+            MyStack<Integer> myStack = new MyStack<>();
+            MyQueue<Integer> myQueue = new MyQueue<>();
             Stack<Integer> stack = new Stack<>();
             Queue<Integer> queue = new LinkedList<>();
 
@@ -161,29 +161,28 @@ public class DoubleEndsQueueToStackAndQueue {
                     } else {
                         if (!isEqual(myStack.pop(), stack.pop())) {
                             System.out.println("Fucking fucked!");
-                            break;
                         }
                     }
                 }
 
+                int numq = (int) (Math.random() * value);
                 if (queue.isEmpty()) {
-                    queue.offer(nums);
-                    myQueue.offer(nums);
+                    queue.offer(numq);
+                    myQueue.offer(numq);
                 } else {
                     if (Math.random() < 0.5) {
-                        myQueue.offer(nums);
-                        queue.offer(nums);
+                        myQueue.offer(numq);
+                        queue.offer(numq);
                     } else {
                         if (!isEqual(myQueue.poll(), queue.poll())) {
                             System.out.println("Fucking fucked!");
-                            break;
                         }
                     }
                 }
-
             }
         }
-        System.out.println("Success!");
+
+        System.out.println("Finished!");
 
     }
 
