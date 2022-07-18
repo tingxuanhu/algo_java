@@ -1,7 +1,4 @@
-package bitcal;
-
-import java.util.HashMap;
-import java.util.HashSet;
+package commonsense;
 
 public class EvenTimesOddTimes {
     // 一个数出现奇数次 其他数出现偶数次  找出出现奇数次的数
