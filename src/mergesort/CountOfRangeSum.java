@@ -31,7 +31,7 @@ public class CountOfRangeSum {
         int windowR = l;
         int ans = 0;
 
-        // 扫描区间[windowL, windowR) -- 左闭右开区间
+        // 扫描区间[windowL, windowR) -- 左闭右开区间  注意边界条件
         for (int i = m + 1; i <= r; i++) {
             long min = arr[i] - upper;
             long max = arr[i] - lower;
