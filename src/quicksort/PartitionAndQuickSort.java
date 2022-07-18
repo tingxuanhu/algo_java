@@ -119,6 +119,11 @@ public class PartitionAndQuickSort {
         arr[i] ^= arr[j];
     }
 
+
+    // 快排的非递归写法  第二轮刷题重新复习  写一写
+    // 快排双向链表实现class05的补充题目  第二轮写
+
+
     // for test
     public static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
