@@ -9,19 +9,52 @@ public class SortArrayDistanceLessK {
         if (k == 0) {
             return;
         }
-        PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+        PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
 
         int idx = 0;  // index是要继承到后续的for loop的 所以定义在外围
-        // 建一个小根堆 k+1规模
-        for (; )
-
+        // 建一个小根堆
+        for (; idx < Math.min(arr.length, k); idx++) {
+            heap.add(arr[idx]);
+        }
 
         // 不断加入后续元素并弹出堆顶元素  有序排列起来
-
+        int i = 0;
+        for (; idx < arr.length; i++, idx++) {
+            heap.add(arr[idx]);
+            arr[i] = heap.poll();
+        }
+        while (!heap.isEmpty()) {
+            arr[i++] = heap.poll();
+        }
     }
 
-
     // for test
+    public static void comparator(int[] arr) {
+        Arrays.sort(arr);
+    }
+
+    // 制造一个移动不超过k的基本有序的数组
+    public static int[] arrRandomSeries(int maxSize, int maxValue, int k) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
+        }
+        Arrays.sort(arr);
+
+        boolean[] isSwapped = new boolean[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            int j = Math.min(i + (int) ((k + 1) * Math.random()), arr.length - 1);
+            if (!isSwapped[i] && !isSwapped[j]) {
+                isSwapped[i] = true;
+                isSwapped[j] = true;
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+        return arr;
+    }
+
     public static int[] copyArray(int[] arr) {
         if (arr == null) {
             return null;
@@ -64,8 +97,28 @@ public class SortArrayDistanceLessK {
     }
 
 
-    public static void main(String[] args)  {
-
+    public static void main(String[] args) {
+        int testTime = 100000;
+        int maxSize = 100;
+        int maxValue = 100;
+        boolean succeeded = true;
+        for (int i = 0; i < testTime; i++) {
+            int k = (int) (Math.random() * maxSize);
+            int[] arr = arrRandomSeries(maxSize, maxValue, k);
+            int[] arr1 = copyArray(arr);
+            int[] arr2 = copyArray(arr);
+            sortedArrDistanceLessK(arr1, k);
+            comparator(arr2);
+            if (!isEqual(arr1, arr2)) {
+                succeeded = false;
+                System.out.println("K:" + k);
+                printArray(arr);
+                printArray(arr1);
+                printArray(arr2);
+                break;
+            }
+        }
+        System.out.println(succeeded ? "OK" : "FAILED");
     }
 
 }
