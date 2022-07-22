@@ -5,7 +5,7 @@ package datastucture;
 public class DeleteGivenValue {
 
     public static class Node {
-        private int value;
+        private final int value;
         private Node next;
 
         public Node(int data) {
