@@ -7,7 +7,7 @@ public class Heap {
 
     public static class MyMaxHeap {
         private final int limit;
-        private int[] heap;
+        private final int[] heap;
         private int heapSize;
 
         public MyMaxHeap(int limit) {
@@ -74,7 +74,7 @@ public class Heap {
 
 
     public static class RightMaxHeap {
-        private int[] arr;
+        private final int[] arr;
         private final int limit;
         private int size;
 

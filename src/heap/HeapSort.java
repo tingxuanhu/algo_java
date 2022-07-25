@@ -10,10 +10,10 @@ public class HeapSort {
         }
 
         //  建堆的两种方式
-        // 1) 自上而下建堆 -- 适合于用户一个一个给数据的情况 -- O(NlgN)
-        for (int i = 0; i < arr.length; i++) {
-            heapInsert(arr, i);
-        }
+//        // 1) 自上而下建堆 -- 适合于用户一个一个给数据的情况 -- O(NlgN)
+//        for (int i = 0; i < arr.length; i++) {
+//            heapInsert(arr, i);
+//        }
 
         // 2) 自下而上建堆 -- 适合于用户一股脑把数全部给足了 -- O(N)
         for (int i = arr.length / 2; i >= 0; i--) {
