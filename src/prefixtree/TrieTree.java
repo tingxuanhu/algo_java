@@ -1,7 +1,10 @@
 package prefixtree;
 
+import java.util.HashMap;
+
 public class TrieTree {
 
+    // 写法1
     public static class Node1 {
         private int pass;
         private int end;
@@ -95,8 +98,79 @@ public class TrieTree {
             }
             return node.pass;
         }
+    }
+
+    // for debugging
+    public static class Node2 {
+        private int pass;
+        private int end;
+        private HashMap<Integer, Node2> nexts;
+
+        public Node2() {
+            this.pass = 0;
+            this.end = 0;
+            this.nexts = new HashMap<>();
+        }
+    }
+
+    public static class Trie2 {
+        private Node2 root;
+
+        public Trie2() {
+            this.root = new Node2();
+        }
+
+        public void insert(String word) {
+            if (word == null) {
+                return;
+            }
+            char[] str = word.toCharArray();
+            Node2 node = root;
+            node.pass++;
+            int index = 0;
+            for (char c : str) {
+                index = c - 'a';
+                if (!node.nexts.containsKey(index)) {
+                    node.nexts.put(index, new Node2());
+                }
+                node = node.nexts.get(index);
+                node.pass++;
+            }
+            node.end++;
+        }
+
+        public void delete(String word) {
+
+
+        }
+
+        public int search(String word) {
+            if (word == null) {
+                return 0;
+            }
+            char[] str = word.toCharArray();
+            Node2 node = root;
+            int index = 0;
+            for (char c : str) {
+//                index = c - 'a';
+                index = (int) c;
+                if (!node.nexts.containsKey(index)) {
+                    return 0;
+                }
+                node = node.nexts.get(index);
+            }
+            return node.end;
+        }
+
+        public int prefixNumber(String pre) {
+
+
+        }
 
 
     }
+
+
+
 
 }
