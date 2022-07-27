@@ -129,7 +129,7 @@ public class TrieTree {
             node.pass++;
             int index = 0;
             for (char c : str) {
-                index = c - 'a';
+                index = (int) c;
                 if (!node.nexts.containsKey(index)) {
                     node.nexts.put(index, new Node2());
                 }
@@ -140,8 +140,21 @@ public class TrieTree {
         }
 
         public void delete(String word) {
-
-
+            if (search(word) != 0) {
+                char[] chs = word.toCharArray();
+                int index = 0;
+                Node2 node = root;
+                node.pass--;
+                for (char c : chs) {
+                    index = (int) c;
+                    if (node.nexts.get(index).pass == 0) {
+                        node.nexts.remove(index);
+                        return;
+                    }
+                    node = node.nexts.get(index);
+                }
+                node.end--;
+            }
         }
 
         public int search(String word) {
@@ -163,11 +176,21 @@ public class TrieTree {
         }
 
         public int prefixNumber(String pre) {
-
-
+            if (pre == null) {
+                return 0;
+            }
+            char[] str = pre.toCharArray();
+            Node2 node = root;
+            int index = 0;
+            for (char c : str) {
+                index = (int) c;
+                if (!node.nexts.containsKey(index)) {
+                    return 0;
+                }
+                node = node.nexts.get(index);
+            }
+            return node.pass;
         }
-
-
     }
 
 
