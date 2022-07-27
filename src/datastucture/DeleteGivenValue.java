@@ -12,7 +12,6 @@ public class DeleteGivenValue {
             this.value = data;
         }
     }
-
     public static Node removeGivenValue(Node head, int num) {
         // 链表题目最恶心的边界条件
         // 若是开头很多个都是待删除的值，那么需要把头一直往后挪  直至第一个不需要删除的节点处或者为空(链表中全是num)

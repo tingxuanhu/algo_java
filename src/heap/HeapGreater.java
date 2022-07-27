@@ -23,6 +23,8 @@ public class HeapGreater<T> {
         this.comparator = c;
     }
 
+
+
     public int size() {
         return this.heapSize;
     }
