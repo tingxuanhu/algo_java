@@ -46,20 +46,18 @@ public class TrieTree {
             if (search(word) != 0) {
                 char[] chs = word.toCharArray();
                 Node1 node = root;
-                node.pass--;
-                int path = 0;
+                int idx = 0;
                 for (char c : chs) {
-                    path = c - 'a';
-
+                    idx = c - 'a';
+                    // 避免内存泄露 把p、e=0的删掉  设为null后JAVA会自己释放掉 头结点找不着它们了（JVM的功能  怎么实现的嘞？）
+                    if (--node.pass == 0) {
+                        node.nexts[idx] = null;
+                        return;
+                    }
+                    node = node.nexts[idx];
                 }
+                node.end--;
             }
-
-
-
-
-            // 避免内存泄露 把p、e=0的删掉
-
-
         }
 
         // 搜一个词word出现的次数
