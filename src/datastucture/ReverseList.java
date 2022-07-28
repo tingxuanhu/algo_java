@@ -3,7 +3,7 @@ package datastucture;
 public class ReverseList {
 
     public static class Node {
-        private final int value;
+        private int value;
         private Node next;
 
         public Node(int data) {
@@ -12,7 +12,7 @@ public class ReverseList {
     }
 
     public static class DoubleNode {
-        private final int value;
+        private int value;
         private DoubleNode last;
         private DoubleNode next;
 
