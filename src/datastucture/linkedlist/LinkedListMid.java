@@ -10,7 +10,6 @@ public class LinkedListMid {
 
     // 对照草稿纸掰扯掰扯再写
 
-
 }
 
 
