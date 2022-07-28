@@ -1,7 +1,6 @@
 package prefixtree;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TrieTree {
     // 写法1
