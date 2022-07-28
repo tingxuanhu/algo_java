@@ -1,9 +1,9 @@
 package prefixtree;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TrieTree {
-
     // 写法1
     public static class Node1 {
         private int pass;
@@ -86,7 +86,7 @@ public class TrieTree {
             if (pre == null) {
                 return 0;
             }
-            char[] str = word.toCharArray();
+            char[] str = pre.toCharArray();
             Node1 node = root;
             int index = 0;
             for (char c : str) {
@@ -193,7 +193,108 @@ public class TrieTree {
         }
     }
 
+    public static class Right {
+        private HashMap<String, Integer> box;
 
+        public Right() {
+            this.box = new HashMap<>();
+        }
 
+        public void insert(String word) {
+            if (word == null) {
+                return;
+            }
+            if (!box.containsKey(word)) {
+                box.put(word, 1);
+            } else {
+                box.put(word, box.get(word) + 1);
+            }
+        }
+
+        public void delete(String word) {
+            if (box.containsKey(word)) {
+                if (box.get(word) == 1) {
+                    box.remove(word);
+                } else {
+                    box.put(word, box.get(word) - 1);
+                }
+            }
+        }
+
+        public int search(String word) {
+            if (word == null) {
+                return 0;
+            }
+            return box.getOrDefault(word, 0);
+        }
+
+        public int prefixNumber(String pre) {
+            int count = 0;
+            for (String cur : box.keySet()) {
+                if (cur.startsWith(pre)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // for test
+        public static String[] generateRandomStringArray(int arrLen, int strLen) {
+            String[] ans = new String[(int) (Math.random() * arrLen + 1)];
+            for (String s : ans) {
+                s = generateRandomString(strLen);
+            }
+            return ans;
+        }
+
+        public static String generateRandomString(int strLen) {
+            char[] ans = new char[(int) (Math.random() * strLen + 1)];
+            for (char cur : ans) {
+                int value = (int) (Math.random() * 6);
+                cur = (char) (97 + value);
+            }
+            return String.valueOf(ans);
+        }
+
+        public static void main(String[] args) {
+            int arrLen = 100;
+            int strLen = 20;
+            int testTimes = 100000;
+            for (int i = 0; i < testTimes; i++) {
+                String[] arr = generateRandomStringArray(arrLen, strLen);
+                Trie1 trie1 = new Trie1();
+                Trie2 trie2 = new Trie2();
+                Right right = new Right();
+                for (int j = 0; j < arr.length; j++) {
+                    if (Math.random() < .25) {
+                        trie1.insert(arr[j]);
+                        trie2.insert(arr[j]);
+                        right.insert(arr[j]);
+                    } else if (Math.random() < .5) {
+                        trie1.delete(arr[j]);
+                        trie2.delete(arr[j]);
+                        right.delete(arr[j]);
+                    } else if (Math.random() < .75) {
+                        int ans1 = trie1.search(arr[j]);
+                        int ans2 = trie2.search(arr[j]);
+                        int ans3 = right.search(arr[j]);
+                    } else {
+                        int ans1 = trie1.prefixNumber(arr[j]);
+                        int ans2 = trie2.prefixNumber(arr[j]);
+                        int ans3 = right.prefixNumber(arr[j]);
+
+                        if (ans1 != ans2 || ans1 != ans3) {
+                            System.out.println("ans1" + ans1);
+                            System.out.println("ans2" + ans2);
+                            System.out.println("ans3" + ans3);
+                            System.out.println("Fucking fucked!");
+                        }
+                    }
+                }
+            }
+            System.out.println("finished!");
+        }
+
+    }
 
 }
