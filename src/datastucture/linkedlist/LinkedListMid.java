@@ -11,7 +11,7 @@ public class LinkedListMid {
      */
 
     public static class Node {
-        private int value;
+        private final int value;
         private Node next;
 
         public Node(int value) {

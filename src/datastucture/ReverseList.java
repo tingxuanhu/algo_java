@@ -1,13 +1,12 @@
 package datastucture;
 
 public class ReverseList {
-
     public static class Node {
-        private int value;
+        private final int value;
         private Node next;
 
-        public Node(int data) {
-            this.value = data;
+        public Node(int value) {
+            this.value = value;
         }
     }
 
@@ -16,8 +15,8 @@ public class ReverseList {
         private DoubleNode last;
         private DoubleNode next;
 
-        public DoubleNode(int data) {
-            this.value = data;
+        public DoubleNode(int value) {
+            this.value = value;
         }
     }
 
