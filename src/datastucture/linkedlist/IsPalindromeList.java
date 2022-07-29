@@ -1,5 +1,9 @@
 package datastucture.linkedlist;
 
+import javax.annotation.processing.SupportedSourceVersion;
+import java.io.OutputStream;
+import java.util.Stack;
+
 public class IsPalindromeList {
     public static class Node {
         private int value;
@@ -44,17 +48,71 @@ public class IsPalindromeList {
             slow = slow.next;
         }
         // 复原链表
-//        slow = tmp.next;
-//        tmp.next = null;
-//        while (slow != null) {
-//            fast = slow.next;
-//            slow.next = tmp;
-//
-
+        slow = tmp.next;
+        tmp.next = null;
+        while (slow != null) {
+            fast = slow.next;
+            slow.next = tmp;
+            tmp = slow;
+            slow = fast;
         }
+        return res;
+    }
 
+    public static boolean comp(Node head) {
+        Stack<Node> stack = new Stack<>();
+        Node cur = head;
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;
+        }
+        while (head != null) {
+            if (head.value != stack.pop().value) {
+                return false;
+            }
+            head = head.next;
+        }
+        return true;
+    }
 
+    public static void printLinkedList(Node head) {
+        System.out.println("Linked list: ");
+        while (head != null) {
+            System.out.print(head.value + " ");
+            head = head.next;
+        }
+        System.out.println();
+    }
 
+    public static void main(String[] args) {
+        Node head = null;
+        printLinkedList(head);
+        System.out.println(isPalindrome(head) + " | ");
+        System.out.println(comp(head) + " | ");
+
+        head = new Node(1);
+        printLinkedList(head);
+        System.out.println(isPalindrome(head) + " | ");
+        System.out.println(comp(head) + " | ");
+
+        head = new Node(1);
+        head.next = new Node(2);
+        printLinkedList(head);
+        System.out.println(isPalindrome(head) + " | ");
+        System.out.println(comp(head) + " | ");
+
+        head = new Node(1);
+        head.next = new Node(1);
+        printLinkedList(head);
+        System.out.println(isPalindrome(head) + " | ");
+        System.out.println(comp(head) + " | ");
+
+        head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(1);
+        printLinkedList(head);
+        System.out.println(isPalindrome(head) + " | ");
+        System.out.println(comp(head) + " | ");
     }
 
 }
