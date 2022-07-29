@@ -52,7 +52,19 @@ public class SmallEqualBigger {
         }
         // 串接小尾和等头以及等尾和大头
 
+        // 如果有小于区域
+        if (sT != null) {
+            sT.next = eH;
+            eT = eT == null ? sT : eT;  // 下一步 谁去连接大于区域的头
+        }
 
+        // 如果既没有小于也没有等于 那么下面这一句会为空 所以还是要判断
+        if (eT != null) {
+            eT.next = mH;
+        }
+
+        return sH != null ? sH : (eH != null ? eH : mH);
     }
+
 
 }
