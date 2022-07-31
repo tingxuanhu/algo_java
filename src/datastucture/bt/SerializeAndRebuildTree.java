@@ -177,7 +177,7 @@ public class SerializeAndRebuildTree {
             Queue<String> pre = preSerial(head);
             Queue<String> level = levelSerial(head);
             Node preBuild = buildTreeByPreQueue(pre);
-            Node levelBuild = buildTreeByLevelQueue(pre);
+            Node levelBuild = buildTreeByLevelQueue(level);
             if (!isSameValueStructure(preBuild, levelBuild)) {
                 System.out.println("Fucking fucked!");
                 break;
