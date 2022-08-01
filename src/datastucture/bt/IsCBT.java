@@ -47,5 +47,4 @@ public class IsCBT {
         return true;
     }
 
-
 }
