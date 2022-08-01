@@ -2,6 +2,7 @@ package datastucture.bt;
 
 import heap.MergeKSortedList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 本题测试链接：https://leetcode.com/problems/encode-n-ary-tree-to-binary-tree
@@ -59,11 +60,23 @@ public class EncodeNaryTreeToBT {
             return head;
         }
 
+        public Node decode(TreeNode root) {
+            if (root == null) {
+                return null;
+            }
+            return new Node(root.val, de(root.left));
+        }
 
-
+        // 从二叉树孩子中的老大(右边界起头的)开始把兄弟们串在列表里 由于编码时是dfs 所以decode也是先把自己孩子处理完再会合
+        private List<Node> de(TreeNode root) {
+            List<Node> children = new ArrayList<>();
+            while (root != null) {
+                Node cur = new Node(root.val, de(root.left));
+                children.add(cur);
+                root = root.right;
+            }
+            return children;
+        }
     }
-
-
-
 
 }
