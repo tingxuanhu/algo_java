@@ -1,4 +1,4 @@
-package heap;
+package datastucture.heap;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,7 +30,7 @@ public class HeapGreater<T> {
     }
 
     public boolean isEmpty() {
-//        return this.heap.isEmpty();
+//        return this.datastucture.heap.isEmpty();
         return heapSize == 0;
     }
 

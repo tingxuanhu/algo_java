@@ -1,4 +1,4 @@
-package heap;
+package datastucture.heap;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -94,7 +94,7 @@ public class Heap {
 
         public void push(int value) {
             if (size == limit) {
-                throw new RuntimeException("heap is full");
+                throw new RuntimeException("datastucture.heap is full");
             }
             arr[size++] = value;
         }

@@ -1,7 +1,5 @@
 package datastucture.bt;
 
-import heap.MergeKSortedList;
-
 import java.util.ArrayList;
 import java.util.List;
 
