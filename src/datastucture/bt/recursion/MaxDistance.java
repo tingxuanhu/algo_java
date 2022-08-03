@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 // 返回二叉树节点最大间距
-// 与x有关和与x无关两种情况  可以划分为三种情况:
+// 可以划分为三种情况:  与x无关(以下1和2)  与x有关(以下3)
 // 1) x左子树存在最大  2)x右子树存在最大  3)左右子树的高度之和加1(x本层算1)
 public class MaxDistance {
 
