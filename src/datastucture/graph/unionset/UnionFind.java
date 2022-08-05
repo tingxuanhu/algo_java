@@ -1,4 +1,4 @@
-package datastucture.graph;
+package datastucture.graph.unionset;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Stack;
 // 并查集做了两处优化 都是为了减少链表长度 实现O(1)查询和合并的均摊复杂度
 // 第一是用表代替了指针存储直系父子关系
 // 第二是往上寻找代表节点的过程中间,在完成返回代表节点之前,把直系链表上的节点直接挂载在代表节点上
+
+// 这个代码是看看并查集的工作原理 但实际是用数组来代替栈实现find过程
 public class UnionFind {
 
     public static class Node<V> {
