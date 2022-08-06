@@ -30,8 +30,38 @@ public class NumOfIslands {
     }
 
     // 用数组实现并查集的方法
+    // 原二元char数组中的r行c列的元素可以由 r * 列数 + c 获得其在新的数组中间的位置
     public static int numIslands(char[][] board) {
-
+        if (board == null || board.length < 1) {
+            return 0;
+        }
+        UnionSet unionSet = new UnionSet(board);
+        int row = board.length;
+        int col = board[0].length;
+        // 第一行从左到右 (0,0)号元素没有上没有左 遂跳过
+        for (int i = 1; i < row; i++) {
+            if (board[i - 1][0] == '1' && board[i][0] == '1') {
+                unionSet.union(i - 1, 0, i, 0);
+            }
+        }
+        // 第一列从上到下 (0,0)号元素没有上没有左 遂跳过
+        for (int j = 1; j < col; j++) {
+            if (board[0][j - 1] == '1' && board[0][j] == '1') {
+                unionSet.union(0, j - 1, 0, j);
+            }
+        }
+        // 其他情况统一部署 前边的两个for循环可以省去边界的判别条件
+        for (int r = 1; r < row; r++) {
+            for (int c = 1; c < col; c++) {
+                if (board[r][c] == '1' && board[r - 1][c] == '1') {
+                    unionSet.union(r, c, r - 1, c);
+                }
+                if (board[r][c] == '1' && board[r][c - 1] == '1') {
+                    unionSet.union(r, c, r, c - 1);
+                }
+            }
+        }
+        return unionSet.sets;
     }
 
     public static class UnionSet {
@@ -42,24 +72,96 @@ public class NumOfIslands {
         private int sets;
 
         public UnionSet(char[][] board) {
-            int N = board.length;
-            int M = board[0].length;
-            int len = N * M;
+            col = board[0].length;
             sets = 0;
+            int row = board.length;
+            int len = row * col;
             parent = new int[len];
             size = new int[len];
             help = new int[len];
-            for (int row = 0; row < N; row++) {
-                for (int col = 0; col < M; col++) {
-                    if (board[row][col] == '1') {
-
+            for (int r = 0; r < row; r++) {
+                for (int c = 0; c < col; c++) {
+                    if (board[r][c] == '1') {
+                        int idx = r * col + c;
+                        parent[idx] = idx;
+                        size[idx] = 1;
+                        sets++;
                     }
                 }
             }
-
         }
 
+        private void union(int r1, int c1, int r2, int c2) {
+            int i1 = r1 * col + c1;
+            int i2 = r2 * col + c2;
+            int f1 = find(i1);
+            int f2 = find(i2);
+            if (f1 != f2) {
+                // 小的挂载在大的上
+                if (size[f1] >= size[f2]) {
+                    size[f1] += size[f2];
+                    parent[f2] = f1;
+                } else {
+                    size[f2] += size[f1];
+                    parent[f1] = f2;
+                }
+                sets--;
+            }
+        }
+
+        private int find(int i) {
+            int hi = 0;
+            while (i != parent[i]) {
+                help[hi++] = i;
+                i = parent[i];
+            }
+            for (hi--; hi >= 0; hi--) {
+                parent[help[hi]] = i;
+            }
+            return i;
+        }
+
+        public int sets() {
+            return sets;
+        }
     }
 
+    // for test
+    public static char[][] generateRandomMatrix(int row, int col) {
+        char[][] board = new char[row][col];
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                board[r][c] = Math.random() < 0.5 ? '1' : '0';
+            }
+        }
+        return board;
+    }
+
+    public static char[][] copyCharMatrix(char[][] board) {
+        int row = board.length;
+        int col = board[0].length;
+        char[][] ans = new char[row][col];
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                ans[r][c] = board[r][c];
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int row = 100;
+        int col = 100;
+        int testTimes = 1000;
+        for (int t = 0; t < testTimes; t++) {
+            char[][] board1 = generateRandomMatrix(row, col);
+            char[][] board2 = copyCharMatrix(board1);
+            if (numIslands(board1) != numIslandsRecursion(board2)) {
+                System.out.println("Oops!");
+                break;
+            }
+        }
+        System.out.println("Finished!");
+    }
 
 }
