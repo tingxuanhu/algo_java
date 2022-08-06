@@ -1,5 +1,6 @@
 package datastucture.graph.unionset;
 
+// https://leetcode.com/problems/number-of-islands/
 public class NumOfIslands {
 
     // 感染方法
