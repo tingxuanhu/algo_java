@@ -16,26 +16,29 @@ import java.util.*;
 public class Prim {
 
     public static Set<Edge> primMST(Graph graph) {
-        // 解锁的边进入小根堆
-        PriorityQueue<Edge> minHeap = new PriorityQueue<>(new EdgeComparator());
-        // 看哪些点被解锁
+        // 解锁的边进入小根堆 按照权值小到大放置
+        PriorityQueue<Edge> unlockedEdges = new PriorityQueue<>(new EdgeComparator());
+        // 看哪些点被解锁(考察过的点)
         HashSet<Node> nodeSet = new HashSet<>();
         // 依次挑选的边放入res
         Set<Edge> res = new HashSet<>();
+        // 这个for循环是考虑是否不连通 存在分片区域  如果整个图联通可以省略掉这个for循环
         for (Node node : graph.nodes.values()) {
             if (!nodeSet.contains(node)) {
                 nodeSet.add(node);
                 for (Edge edge : node.edges) {
-                    minHeap.add(edge);
+                    // 这里的for循环和底下的for循环会重复把边放进优先级队列中 但不影响结果
+                    // 即便被重复处理了 nodeSet中间已经处理了已经放入的点 处理也将直接被跳过 也只是增加一些常数时间
+                    unlockedEdges.add(edge);
                 }
-                while (!minHeap.isEmpty()) {
-                    Edge edge = minHeap.poll();
+                while (!unlockedEdges.isEmpty()) {
+                    Edge edge = unlockedEdges.poll();
                     Node toNode = edge.to;
                     if (!nodeSet.contains(toNode)) {
                         nodeSet.add(toNode);
                         res.add(edge);
                         for (Edge next : toNode.edges) {
-                            minHeap.add(next);
+                            unlockedEdges.add(next);
                         }
                     }
                 }
