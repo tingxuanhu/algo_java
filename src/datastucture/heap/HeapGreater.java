@@ -14,7 +14,7 @@ public class HeapGreater<T> {
      */
     private HashMap<T, Integer> indexMap;
     private int heapSize;
-    private Comparator<? super T> comparator;
+    private final Comparator<? super T> comparator;
 
     public HeapGreater(Comparator<? super T> c) {
         this.heap = new ArrayList<>();
@@ -22,8 +22,6 @@ public class HeapGreater<T> {
         this.heapSize = 0;
         this.comparator = c;
     }
-
-
 
     public int size() {
         return this.heapSize;
