@@ -62,9 +62,9 @@ public class Prim {
     // 请保证graph是连通图
     // graph[i][j]表示点i到点j的距离，如果是系统最大值代表无路
     // 返回值是最小连通图的路径之和
-    public static int prim(int[][] graph) {
-
-    }
+//    public static int prim(int[][] graph) {
+//
+//    }
 
 
 }

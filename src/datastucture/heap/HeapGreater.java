@@ -32,6 +32,10 @@ public class HeapGreater<T> {
         return heapSize == 0;
     }
 
+    public boolean contains(T obj) {
+        return indexMap.containsKey(obj);
+    }
+
     public T peek() {
         return heap.get(0);
     }
@@ -65,6 +69,7 @@ public class HeapGreater<T> {
     }
 
     public void resign(T obj) {
+        // 两个逻辑只会中一个
         heapInsert(indexMap.get(obj));
         heapify(indexMap.get(obj));
     }

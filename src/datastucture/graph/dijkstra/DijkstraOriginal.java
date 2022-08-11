@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 
 // 适用没有权值为负数的边 (准确表述:允许存在权值为负数的边 但不允许存在权值为负数的边构建起的一个环)
-public class Dijkstra {
+public class DijkstraOriginal {
 
     public static HashMap<Node, Integer> dijkstraOriginal(Node head) {
         // 这张表记录从head出发到所有点的最小距离  key:head出发到达的点   val:head出发到达key的最短距离
