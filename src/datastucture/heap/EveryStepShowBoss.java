@@ -1,43 +1,44 @@
 package datastucture.heap;
 
-import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 // https://github.com/algorithmzuo/algorithmbasic2020/blob/master/src/class07/Code02_EveryStepShowBoss.java
+// 运行有问题  不对？ zuo给的代码也不对？
 public class EveryStepShowBoss {
 
-//    public static class Customer {
-//        public int id;
-//        public int buy;
-//        public int enterTime;
-//
-//        public Customer(int id, int b, int e) {
-//            this.id = id;
-//            this.buy = b;
-//            this.enterTime = e;
-//        }
-//    }
-//
-//    // 候选区比较器  买的多的先替换得奖者 若都一样多 让先买的挤走得奖者
-//    public static class CandidateComparator implements Comparator<Customer> {
-//        @Override
-//        public int compare(Customer c1, Customer c2) {
-//            return c1.buy != c2.buy ? c2.buy - c1.buy : c1.enterTime - c2.enterTime;
-//        }
-//    }
-//
-//    // 得奖区比较器  买的少的先被挤掉 若都一样少 把先得奖的挤走
-//    public static class WinComparator implements Comparator<Customer> {
-//        @Override
-//        public int compare(Customer c1, Customer c2) {
-//            return c1.buy != c2.buy ? c1.buy - c2.buy : c1.enterTime - c2.enterTime;
-//        }
-//    }
-//
-//    // 加强堆优化的版本
+    public static class Customer {
+        public int id;
+        public int buy;
+        public int enterTime;
+
+        public Customer(int id, int b, int e) {
+            this.id = id;
+            this.buy = b;
+            this.enterTime = e;
+        }
+    }
+
+     // 候选区比较器  买的多的先替换得奖者 若都一样多 让先买的挤走得奖者
+    public static class CandidateComparator implements Comparator<Customer> {
+        @Override
+        public int compare(Customer c1, Customer c2) {
+            return c1.buy != c2.buy ? c2.buy - c1.buy : c1.enterTime - c2.enterTime;
+        }
+    }
+
+    // 得奖区比较器  买的少的先被挤掉 若都一样少 把先得奖的挤走
+    public static class WinComparator implements Comparator<Customer> {
+        @Override
+        public int compare(Customer c1, Customer c2) {
+            return c1.buy != c2.buy ? c1.buy - c2.buy : c1.enterTime - c2.enterTime;
+        }
+    }
+
+
+    // 加强堆优化的版本
 //    public static List<List<Integer>> topK(int[] arr, boolean[] op, int k) {
 //        if (arr.length != op.length) {
 //            throw new IndexOutOfBoundsException();
@@ -52,19 +53,19 @@ public class EveryStepShowBoss {
 //    }
 //
 //    public static class Operation {
-//        private HashMap<Integer, Customer> customers;
-//        private HeapGreater<Customer> candidateHeap;
-//        private HeapGreater<Customer> winnerHeap;
+//        private final HashMap<Integer, Customer> customers;
+//        private final HeapGreater<Customer> candidateHeap;
+//        private final HeapGreater<Customer> winnerHeap;
 //        private final int limit;
 //
-//        public Operation(int limit) {
+//        public Operation(int l) {
 //            customers = new HashMap<>();
 //            candidateHeap = new HeapGreater<>(new CandidateComparator());
 //            winnerHeap = new HeapGreater<>(new WinComparator());
-//            this.limit = limit;
+//            limit = l;
 //        }
 //
-//        // 当前处理第i个事件  arr[i] -- id    buyOrRefund
+//         // 当前处理第i个事件  arr[i] -- id    buyOrRefund
 //        public void operate(int curTime, int id, boolean buyOrRefund) {
 //            // 记录为0又退货 不合理操作 跳过
 //            if (!buyOrRefund && !customers.containsKey(id)) {
@@ -101,7 +102,7 @@ public class EveryStepShowBoss {
 //                if (cur.buy == 0) {
 //                    winnerHeap.remove(cur);
 //                } else {
-//                    winnerHeap.remove(cur);
+//                    winnerHeap.resign(cur);
 //                }
 //            }
 //            moveOrIgnore(curTime);
@@ -136,197 +137,16 @@ public class EveryStepShowBoss {
 //            }
 //        }
 //    }
-//
-//
-//
-//    // for test   method 2
-//    public static List<List<Integer>> compare(int[] arr, boolean[] op, int k) {
-//        if (arr.length != op.length) {
-//            throw new IndexOutOfBoundsException();
-//        }
-//        List<List<Integer>> ans = new ArrayList<>();
-//        HashMap<Integer, Customer> customers = new HashMap<>();          // id <--> customer instance
-//        ArrayList<Customer> candidates = new ArrayList<>();
-//        ArrayList<Customer> winners = new ArrayList<>();
-//
-//        for (int i = 0; i < arr.length; i++) {
-//            int id = arr[i];
-//            boolean buyOrRefund = op[i];
-//            // 记录为0又退货 不合理操作 跳过 维持上一步的结果作为答案
-//            if (!buyOrRefund && !customers.containsKey(id)) {
-//                ans.add(getCurAns(winners));
-//                continue;
-//            }
-//            if (!customers.containsKey(id)) {
-//                customers.put(id, new Customer(id, 0, 0)); // 置0方便后面来进行调整 这里只是初始化
-//            }
-//            // 初始化后在这里开始调整 根据买货或者卖货实施具体措施(此前map有记录或者是刚刚map初始化记录,可以用下面语句统一更新buy记录)
-//            Customer cur = customers.get(id);
-//            if (buyOrRefund) {
-//                cur.buy++;
-//            } else {
-//                cur.buy--;
-//            }
-//            if (cur.buy == 0) {
-//                customers.remove(id);
-//            }
-//            // 调整完当前购货或者退货行为之后 可以进行候选与获奖的比拼
-//            // 首先判断实施当前行为的顾客是不是已经在候选区和获奖区当中
-//            if (!candidates.contains(cur) && !winners.contains(cur)) {
-//                cur.enterTime = i;
-//                if (winners.size() < k) {
-//                    winners.add(cur);
-//                } else {
-//                    candidates.add(cur);
-//                }
-//            }
-//            cleanAllZero(candidates);
-//            cleanAllZero(winners);
-//            candidates.sort(new CandidateComparator());
-//            winners.sort(new WinComparator());
-//            replace(candidates, winners, k, i);
-//            ans.add(getCurAns(winners));
-//        }
-//        return ans;
-//    }
-//
-//    public static void cleanAllZero(ArrayList<Customer> arr) {
-//        List<Customer> tmp = new ArrayList<>();
-//        for (Customer c : arr) {
-//            if (c.buy != 0) {
-//                tmp.add(c);
-//            }
-//        }
-//        arr.clear();
-//        arr.addAll(tmp);
-//    }
-//
-//    public static void replace(ArrayList<Customer> candidates, ArrayList<Customer> winners, int k, int enterTime) {
-//        if (candidates.isEmpty()) {
-//            return;
-//        }
-//        Customer cur = candidates.get(0);
-//        Customer competitor = winners.get(0);
-//        if (winners.size() < k) {
-//            cur.enterTime = enterTime;
-//            winners.add(cur);
-//            candidates.remove(cur);
-//        } else { // 此时获奖区满了 候选区非空
-//            if (cur.buy > competitor.buy) {
-//                winners.remove(0);
-//                candidates.remove(0);
-//                cur.enterTime = enterTime;
-//                competitor.enterTime = enterTime;
-//                winners.add(cur);
-//                candidates.add(competitor);
-//            }
-//        }
-//    }
-//
-//    public static List<Integer> getCurAns(ArrayList<Customer> winners) {
-//        List<Integer> ans = new ArrayList<>();
-//        for (Customer cur : winners) {
-//            ans.add(cur.id);
-//        }
-//        return ans;
-//    }
-//
-//    // for test 对数器
-//    public static class Data {
-//        public int[] arr;
-//        public boolean[] op;
-//
-//        public Data(int[] a, boolean[] o) {
-//            arr = a;
-//            op = o;
-//        }
-//    }
-//
-//    public static Data generateRandomData(int maxVal, int maxSize) {
-//        int len = (int) (Math.random() * maxSize) + 1;
-//        int[] arr = new int[len];
-//        boolean[] op = new boolean[len];
-//        for (int i = 0; i < arr.length; i++) {
-//            arr[i] = (int) (Math.random() * maxVal);
-//            op[i] = Math.random() < 0.5 ? true : false;
-//        }
-//        return new Data(arr, op);
-//    }
-//
-//    public static boolean compareAns(List<List<Integer>> res1, List<List<Integer>> res2) {
-//        if (res1.size() != res2.size()) {
-//            return false;
-//        }
-//        for (int i = 0; i < res1.size(); i++) {
-//            List<Integer> curRes1 = res1.get(i);
-//            List<Integer> curRes2 = res2.get(i);
-//            if (curRes1.size() != curRes2.size()) {
-//                return false;
-//            }
-//            curRes1.sort((a, b) -> a - b);
-//            curRes2.sort((a, b) -> a - b);
-//            for (int j = 0; j < curRes1.size(); j++) {
-//                if (!curRes1.get(i).equals(curRes2.get(i))) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-//
-//    public static void main(String[] args) {
-//        int maxVal = 10;
-//        int maxSize = 100;
-//        int maxK = 6;
-//        int testTimes = 10000;
-//        for (int i = 0; i < testTimes; i++) {
-//            Data data = generateRandomData(maxVal, maxSize);
-//            int k = (int) (Math.random() * maxK) + 1;
-//            int[] arr = data.arr;
-//            boolean[] op = data.op;
-//            List<List<Integer>> res1 = topK(arr, op, k);
-//            List<List<Integer>> res2 = compare(arr, op, k);
-//            if (!compareAns(res1, res2)) {
-//                for (int j = 0; j < res1.size(); j++) {
-//                    System.out.println(arr[j] + "," + op[j]);
-//                }
-//                System.out.println(k);
-//                System.out.println(res1);
-//                System.out.println(res2);
-//                System.out.println("Oops！");
-//                break;
-//            }
-//        }
-//        System.out.println("Finished!");
-//    }
-public static class Customer {
-    public int id;
-    public int buy;
-    public int enterTime;
 
-    public Customer(int v, int b, int o) {
-        id = v;
-        buy = b;
-        enterTime = 0;
-    }
-}
 
-    public static class CandidateComparator implements Comparator<Customer> {
-
-        @Override
-        public int compare(Customer o1, Customer o2) {
-            return o1.buy != o2.buy ? (o2.buy - o1.buy) : (o1.enterTime - o2.enterTime);
+    public static List<List<Integer>> topK(int[] arr, boolean[] op, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        WhosYourDaddy whoDaddies = new WhosYourDaddy(k);
+        for (int i = 0; i < arr.length; i++) {
+            whoDaddies.operate(i, arr[i], op[i]);
+            ans.add(whoDaddies.getDaddies());
         }
-
-    }
-
-    public static class DaddyComparator implements Comparator<Customer> {
-
-        @Override
-        public int compare(Customer o1, Customer o2) {
-            return o1.buy != o2.buy ? (o1.buy - o2.buy) : (o1.enterTime - o2.enterTime);
-        }
-
+        return ans;
     }
 
     public static class WhosYourDaddy {
@@ -338,7 +158,7 @@ public static class Customer {
         public WhosYourDaddy(int limit) {
             customers = new HashMap<Integer, Customer>();
             candHeap = new HeapGreater<>(new CandidateComparator());
-            daddyHeap = new HeapGreater<>(new DaddyComparator());
+            daddyHeap = new HeapGreater<>(new WinComparator());
             daddyLimit = limit;
         }
 
@@ -414,18 +234,107 @@ public static class Customer {
 
     }
 
-    public static List<List<Integer>> topK(int[] arr, boolean[] op, int k) {
-        List<List<Integer>> ans = new ArrayList<>();
-        WhosYourDaddy whoDaddies = new WhosYourDaddy(k);
-        for (int i = 0; i < arr.length; i++) {
-            whoDaddies.operate(i, arr[i], op[i]);
-            ans.add(whoDaddies.getDaddies());
-        }
-        return ans;
-    }
 
-    // 干完所有的事，模拟，不优化
-    public static List<List<Integer>> compare(int[] arr, boolean[] op, int k) {
+
+
+
+
+//    // for test   method 2
+//    public static List<List<Integer>> compare(int[] arr, boolean[] op, int k) {
+//        if (arr.length != op.length) {
+//            throw new IndexOutOfBoundsException();
+//        }
+//        List<List<Integer>> ans = new ArrayList<>();
+//        HashMap<Integer, Customer> customers = new HashMap<>();          // id <--> customer instance
+//        ArrayList<Customer> candidates = new ArrayList<>();
+//        ArrayList<Customer> winners = new ArrayList<>();
+//
+//        for (int i = 0; i < arr.length; i++) {
+//            int id = arr[i];
+//            boolean buyOrRefund = op[i];
+//            // 记录为0又退货 不合理操作 跳过 维持上一步的结果作为答案
+//            if (!buyOrRefund && !customers.containsKey(id)) {
+//                ans.add(getCurAns(winners));
+//                continue;
+//            }
+//            if (!customers.containsKey(id)) {
+//                customers.put(id, new Customer(id, 0, 0)); // 置0方便后面来进行调整 这里只是初始化
+//            }
+//            // 初始化后在这里开始调整 根据买货或者卖货实施具体措施(此前map有记录或者是刚刚map初始化记录,可以用下面语句统一更新buy记录)
+//            Customer cur = customers.get(id);
+//            if (buyOrRefund) {
+//                cur.buy++;
+//            } else {
+//                cur.buy--;
+//            }
+//            if (cur.buy == 0) {
+//                customers.remove(id);
+//            }
+//            // 调整完当前购货或者退货行为之后 可以进行候选与获奖的比拼
+//            // 首先判断实施当前行为的顾客是不是已经在候选区和获奖区当中
+//            if (!candidates.contains(cur) && !winners.contains(cur)) {
+//                cur.enterTime = i;
+//                if (winners.size() < k) {
+//                    winners.add(cur);
+//                } else {
+//                    candidates.add(cur);
+//                }
+//            }
+//            cleanAllZero(candidates);
+//            cleanAllZero(winners);
+//            candidates.sort(new CandidateComparator());
+//            winners.sort(new WinComparator());
+//            replace(candidates, winners, k, i);
+//            ans.add(getCurAns(winners));
+//        }
+//        return ans;
+//    }
+//
+//    public static void cleanAllZero(ArrayList<Customer> arr) {
+//        List<Customer> tmp = new ArrayList<>();
+//        for (Customer c : arr) {
+//            if (c.buy != 0) {
+//                tmp.add(c);
+//            }
+//        }
+//        arr.clear();
+//        arr.addAll(tmp);
+//    }
+//
+//    public static void replace(ArrayList<Customer> candidates, ArrayList<Customer> winners, int k, int enterTime) {
+//        if (candidates.isEmpty()) {
+//            return;
+//        }
+//        if (winners.size() < k) {
+//            Customer cur = candidates.get(0);
+//            cur.enterTime = enterTime;
+//            winners.add(cur);
+//            candidates.remove(cur);
+//        } else { // 此时获奖区满了 候选区非空
+//            if (candidates.get(0).buy > winners.get(0).buy) {
+//                Customer cur = candidates.get(0);
+//                Customer competitor = winners.get(0);
+//                winners.remove(0);
+//                candidates.remove(0);
+//                cur.enterTime = enterTime;
+//                competitor.enterTime = enterTime;
+//                winners.add(cur);
+//                candidates.add(competitor);
+//            }
+//        }
+//    }
+//
+//    public static List<Integer> getCurAns(ArrayList<Customer> winners) {
+//        List<Integer> ans = new ArrayList<>();
+//        for (Customer cur : winners) {
+//            ans.add(cur.id);
+//        }
+//        return ans;
+//    }
+
+
+
+    public static List<List<Integer>> compare2(int[] arr, boolean[] op, int k) {
         HashMap<Integer, Customer> map = new HashMap<>();
         ArrayList<Customer> cands = new ArrayList<>();
         ArrayList<Customer> daddy = new ArrayList<>();
@@ -468,7 +377,7 @@ public static class Customer {
             cleanZeroBuy(cands);
             cleanZeroBuy(daddy);
             cands.sort(new CandidateComparator());
-            daddy.sort(new DaddyComparator());
+            daddy.sort(new WinComparator());
             move(cands, daddy, k, i);
             ans.add(getCurAns(daddy));
         }
@@ -520,7 +429,8 @@ public static class Customer {
         return ans;
     }
 
-    // 为了测试
+
+    // for test 对数器
     public static class Data {
         public int[] arr;
         public boolean[] op;
@@ -531,33 +441,34 @@ public static class Customer {
         }
     }
 
-    // 为了测试
-    public static Data randomData(int maxValue, int maxLen) {
-        int len = (int) (Math.random() * maxLen) + 1;
+    public static Data generateRandomData(int maxVal, int maxSize) {
+        int len = (int) (Math.random() * maxSize) + 1;
         int[] arr = new int[len];
         boolean[] op = new boolean[len];
-        for (int i = 0; i < len; i++) {
-            arr[i] = (int) (Math.random() * maxValue);
-            op[i] = Math.random() < 0.5 ? true : false;
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) (Math.random() * maxVal);
+            op[i] = Math.random() < 0.5;
         }
         return new Data(arr, op);
     }
 
-    // 为了测试
-    public static boolean sameAnswer(List<List<Integer>> ans1, List<List<Integer>> ans2) {
-        if (ans1.size() != ans2.size()) {
+    public static boolean compareAns(List<List<Integer>> res1, List<List<Integer>> res2) {
+        if (res1.size() != res2.size()) {
             return false;
         }
-        for (int i = 0; i < ans1.size(); i++) {
-            List<Integer> cur1 = ans1.get(i);
-            List<Integer> cur2 = ans2.get(i);
-            if (cur1.size() != cur2.size()) {
+        for (int i = 0; i < res1.size(); i++) {
+            List<Integer> curRes1 = res1.get(i);
+            List<Integer> curRes2 = res2.get(i);
+            if (curRes1.size() != curRes2.size()) {
                 return false;
             }
-            cur1.sort((a, b) -> a - b);
-            cur2.sort((a, b) -> a - b);
-            for (int j = 0; j < cur1.size(); j++) {
-                if (!cur1.get(j).equals(cur2.get(j))) {
+            curRes1.sort((a, b) -> a - b);
+            curRes2.sort((a, b) -> a - b);
+            for (int j = 0; j < curRes1.size(); j++) {
+                if (!curRes1.get(j).equals(curRes2.get(j))) {
+
+//                    System.out.println(res1);
+//                    System.out.println(res2);
                     return false;
                 }
             }
@@ -565,30 +476,32 @@ public static class Customer {
         return true;
     }
 
+
+
     public static void main(String[] args) {
-        int maxValue = 10;
-        int maxLen = 100;
+        int maxVal = 10;
+        int maxSize = 100;
         int maxK = 6;
-        int testTimes = 100000;
-        System.out.println("测试开始");
+        int testTimes = 1000;
         for (int i = 0; i < testTimes; i++) {
-            Data testData = randomData(maxValue, maxLen);
+            Data data = generateRandomData(maxVal, maxSize);
             int k = (int) (Math.random() * maxK) + 1;
-            int[] arr = testData.arr;
-            boolean[] op = testData.op;
-            List<List<Integer>> ans1 = topK(arr, op, k);
-            List<List<Integer>> ans2 = compare(arr, op, k);
-            if (!sameAnswer(ans1, ans2)) {
-                for (int j = 0; j < arr.length; j++) {
-                    System.out.println(arr[j] + " , " + op[j]);
-                }
+            int[] arr = data.arr;
+            boolean[] op = data.op;
+            List<List<Integer>> res1 = topK(arr, op, k);
+            List<List<Integer>> res2 = compare2(arr, op, k);
+            if (!compareAns(res1, res2)) {
+//                for (int j = 0; j < res1.size(); j++) {
+//                    System.out.println(arr[j] + "," + op[j]);
+//                }
                 System.out.println(k);
-                System.out.println(ans1);
-                System.out.println(ans2);
-                System.out.println("出错了！");
+                System.out.println(res1);
+                System.out.println(res2);
+                System.out.println("Oops!");
                 break;
             }
         }
-        System.out.println("测试结束");
+        System.out.println("Finished!");
     }
+
 }

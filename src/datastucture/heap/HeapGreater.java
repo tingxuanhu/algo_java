@@ -8,27 +8,19 @@ import java.util.List;
 public class HeapGreater<T> {
 
     private ArrayList<T> heap;
-    /*
-    HashMap用来充当反向索引表 key记录着元素  value记录着索引位置
-    HashMap对于基础类型是按值传递 对于引用类型是按地址传递  所以若是基础类型 需要包装类 获得地址传递的可能
-     */
+    // HashMap用来充当反向索引表 key记元素 value记索引位置 基础类型按值传递 引用类型按地址传递  所以若是基础类型 需要包装类
     private HashMap<T, Integer> indexMap;
     private int heapSize;
     private final Comparator<? super T> comparator;
 
     public HeapGreater(Comparator<? super T> c) {
-        this.heap = new ArrayList<>();
-        this.indexMap = new HashMap<>();
-        this.heapSize = 0;
-        this.comparator = c;
-    }
-
-    public int size() {
-        return this.heapSize;
+        heap = new ArrayList<>();
+        indexMap = new HashMap<>();
+        heapSize = 0;
+        comparator = c;
     }
 
     public boolean isEmpty() {
-//        return this.datastucture.heap.isEmpty();
         return heapSize == 0;
     }
 
@@ -36,14 +28,20 @@ public class HeapGreater<T> {
         return indexMap.containsKey(obj);
     }
 
-    public T peek() {
-        return heap.get(0);
+    public int size() {
+        return heapSize;
     }
 
-    public void push(T obj) {
-        heap.add(obj);
-        indexMap.put(obj, heapSize);
-        heapInsert(++heapSize);
+    public List<T> getAllElements() {
+        List<T> ans = new ArrayList<>();
+        for (T cur : heap) {
+            ans.add(cur);
+        }
+        return ans;
+    }
+
+    public T peek() {
+        return heap.get(0);
     }
 
     public T pop() {
@@ -55,25 +53,32 @@ public class HeapGreater<T> {
         return ans;
     }
 
+    public void push(T obj) {
+        heap.add(obj);
+        indexMap.put(obj, heapSize);
+        heapInsert(heapSize++);
+    }
 
     public void remove(T obj) {
-        T replace = heap.get(heapSize - 1);
-        int index = indexMap.get(obj);
+        // 找到obj的索引位置在哪儿
+        int idx = indexMap.get(obj);
         indexMap.remove(obj);
+        T replace = heap.get(heapSize - 1);
         heap.remove(--heapSize);
         if (obj != replace) {
-            heap.set(index, replace);
-            indexMap.put(replace, index);
+            // 用堆尾元素替换掉要换下来删掉的元素
+            heap.set(idx, replace);
+            indexMap.put(replace, idx);
             resign(replace);
         }
     }
 
     public void resign(T obj) {
-        // 两个逻辑只会中一个
         heapInsert(indexMap.get(obj));
         heapify(indexMap.get(obj));
     }
 
+    // bottom-up
     public void heapInsert(int index) {
         while (comparator.compare(heap.get(index), heap.get((index - 1) / 2)) < 0) {
             swap(index, (index - 1) / 2);
@@ -81,27 +86,19 @@ public class HeapGreater<T> {
         }
     }
 
+    // top-down
     public void heapify(int index) {
         int left = index * 2 + 1;
         while (left < heapSize) {
-            int best = left + 1 < heapSize &&
-                    comparator.compare(heap.get(left + 1), heap.get(left)) < 0 ? left + 1 : left;
+            int best = left + 1 < heapSize && comparator.compare(heap.get(left + 1), heap.get(left)) < 0 ?
+                    left + 1 : left;
             best = comparator.compare(heap.get(best), heap.get(index)) < 0 ? best : index;
             if (best == index) {
-                return;
+                break;
             }
-            swap(best, index);
-            index = best;
-            index = index * 2 + 1;
+            swap(index, best);
+            left = index * 2 + 1;
         }
-    }
-
-    public List<T> getAllElements() {
-        List<T> result = new ArrayList<T>();
-        for (T h : heap) {
-            result.add(h);
-        }
-        return result;
     }
 
     public void swap(int i, int j) {
@@ -112,5 +109,6 @@ public class HeapGreater<T> {
         indexMap.put(o2, i);
         indexMap.put(o1, j);
     }
+
 
 }
