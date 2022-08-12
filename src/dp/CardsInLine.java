@@ -38,5 +38,34 @@ public class CardsInLine {
         return Math.min(p1, p2);
     }
 
+    // dp
+    public static int dp(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        int N = arr.length;
+        int[][] former = new int[N][N];
+        int[][] latter = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            former[i][i] = arr[i];
+        }
+        for (int startCol = 1; startCol < N; startCol++) {
+            int L = 0;
+            int R = startCol;
+            while (R < N) {
+                former[L][R] = Math.max(arr[L] + latter[L + 1][R], arr[R] + latter[L][R - 1]);
+                latter[L][R] = Math.min(former[L + 1][R], former[L][R - 1]);
+                L++;
+                R++;
+            }
+        }
+        return Math.max(former[0][N - 1], latter[0][N - 1]);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 5, 7, 4, 5, 8, 1, 6, 0, 3, 4, 6, 1, 7 };
+        System.out.println(win1(arr));
+        System.out.println(dp(arr));
+    }
 
 }
