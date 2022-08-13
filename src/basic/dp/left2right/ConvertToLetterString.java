@@ -80,11 +80,11 @@ public class ConvertToLetterString {
             int ans0 = number(s);
             int ans1 = numberDP(s);
 //            int ans2 = dpLeftToRight(s);
-            if (ans0 != ans1 || ans0 != ans2) {
+            if (ans0 != ans1) {
                 System.out.println(s);
                 System.out.println(ans0);
                 System.out.println(ans1);
-                System.out.println(ans2);
+//                System.out.println(ans2);
                 System.out.println("Oops!");
                 break;
             }
