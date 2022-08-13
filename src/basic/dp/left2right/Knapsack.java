@@ -1,4 +1,4 @@
-package basic.dp;
+package basic.dp.left2right;
 
 public class Knapsack {
     public static int maxValue(int[] w, int[] v, int bag) {

@@ -1,4 +1,4 @@
-package basic.dp;
+package basic.dp.left2right;
 
 import java.util.HashMap;
 

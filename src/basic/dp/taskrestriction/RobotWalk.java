@@ -1,4 +1,4 @@
-package basic.dp;
+package basic.dp.taskrestriction;
 
 /*
 假设有排成一行的N个位置记为1~N，N一定大于或等于2
