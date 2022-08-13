@@ -31,9 +31,9 @@ public class HorseJump {
     public static int jumpDP(int a, int b, int k) {
         int[][][] dp = new int[10][9][k + 1];
         dp[a][b][0] = 1;
-        for (int rest = 1; rest < k; rest++) {
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 8; j++) {
+        for (int rest = 1; rest <= k; rest++) {
+            for (int i = 0; i <= 9; i++) {
+                for (int j = 0; j <= 8; j++) {
                     dp[i][j][rest] = outOfBoundJudge(dp, i - 1, j - 2, rest - 1)
                             + outOfBoundJudge(dp, i - 1, j + 2, rest - 1)
                             + outOfBoundJudge(dp, i + 1, j - 2, rest - 1)
@@ -55,7 +55,13 @@ public class HorseJump {
         return dp[i][j][rest];
     }
 
-
+    public static void main(String[] args) {
+        int x = 7;
+        int y = 7;
+        int step = 10;
+        System.out.println(jump(x, y, step));
+        System.out.println(jumpDP(x, y, step));
+    }
 
 
 }
