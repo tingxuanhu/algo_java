@@ -25,6 +25,27 @@ public class StickersToSpellWord {
         return min + (min == Integer.MAX_VALUE ? 0 : 1);
     }
 
+    public static String minusChar(String s1, String s2) {
+        char[] str1 = s1.toCharArray();
+        char[] str2 = s2.toCharArray();
+        int[] count = new int[26];
+        for (char cha : str1) {
+            count[cha - 'a']++;
+        }
+        for (char cha : str2) {
+            count[cha - 'a']--;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 26; i++) {
+            if (count[i] > 0) {
+                for (int j = 0; j < count[i]; j++) {
+                    builder.append((char) (i + 'a'));
+                }
+            }
+        }
+        return builder.toString();
+    }
+
     // top-down  target是String类型 很难做类似于处理int型目标的严格表结构(可能性太多了)  做记忆化搜索就好
     // 优化两处：第一 词频表统计代替数组   第二 剪枝操作
     public static int topDown(String[] stickers, String target) {
