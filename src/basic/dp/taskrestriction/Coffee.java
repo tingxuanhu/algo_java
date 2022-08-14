@@ -15,7 +15,7 @@ public class Coffee {
 
     public static class Machine {
         private int reuseTime;
-        private int workTime;
+        private final int workTime;
 
         public Machine(int reuse, int work) {
             this.reuseTime = reuse;
@@ -23,12 +23,20 @@ public class Coffee {
         }
     }
 
+    public static class MachineComparator implements Comparator<Machine> {
+        @Override
+        public int compare(Machine a, Machine b) {
+            return (a.reuseTime + a.workTime) - (b.reuseTime + b.workTime);
+        }
+    }
+
+    // 暴力递归版本
     public static int minTime(int[] arr, int n, int a, int b) {
         PriorityQueue<Machine> machineHeap = new PriorityQueue<Machine>(new MachineComparator());
-        for (int i = 0; i < arr.length; i++) {
-            machineHeap.add(new Machine(0, arr[i]));
+        for (int i : arr) {
+            machineHeap.add(new Machine(0, i));
         }
-        // 接下来获得每个人喝完咖啡的时间数组
+        // 获得每个人喝完咖啡的时间数组
         int[] drinks = new int[n];
         for (int i = 0; i < n; i++) {
             Machine cur = machineHeap.poll();
@@ -37,23 +45,65 @@ public class Coffee {
             machineHeap.add(cur);
         }
         // 把喝完咖啡的数组进行第二阶段 清洗杯子的处理
-        return
+        return bestTime(drinks, a, b, 0, 0);
     }
 
-
-
+    // 暴力递归地求在给定喝完咖啡地时间数组的前提下能够获得的清洁杯子的最短总时间
+    // wash 单杯洗干净的时间（串行）
+    // air 挥发干净的时间(并行)
+    // free 洗的机器什么时候可用
+    // drinks[index.....]都变干净，最早的结束时间（返回）
     public static int bestTime(int[] drinks, int wash, int air, int index, int free){
+        // 越界判定
+        if (index == drinks.length) {
+            return 0;
+        }
+        // 当前来到第index号杯子  决定要放机器里洗(可能能够立即洗 也可能要等位)
+        int curWash = Math.max(drinks[index], free) + wash;
+        int restClean1 = bestTime(drinks, wash, air, index + 1, curWash);
+        int p1 = Math.max(curWash, restClean1);
 
+        // 当前来到第index号杯子  自然挥发
+        int curAir = drinks[index] + air;
+        int restClean2 = bestTime(drinks, wash, air, index + 1, free);
+        int p2 = Math.max(curAir, restClean2);
 
-
-
+        return Math.min(p1, p2);
     }
 
-    public static class MachineComparator implements Comparator<Machine> {
-        @Override
-        public int compare(Machine a, Machine b) {
-            return (a.reuseTime + a.workTime) - (b.reuseTime + b.workTime);
+    // dp
+    public static int minTimeDP(int[] arr, int n, int a, int b) {
+        PriorityQueue<Machine> machineHeap = new PriorityQueue<>();
+        for (int i : arr) {
+            machineHeap.add(new Machine(0, i));
         }
+        int[] drinks = new int[n];
+        for (int i = 0; i < arr.length; i++) {
+            Machine cur = machineHeap.poll();
+            cur.reuseTime += cur.workTime;
+            drinks[i] = cur.reuseTime;
+            machineHeap.add(cur);
+        }
+        // dp的范围上界需要确定 考虑最坏情况 所有杯子都需要洗干净 算出时间的可能上界
+        int upperBound = 0;
+        for (int d : drinks) {
+            upperBound = Math.max(upperBound, d) + a;
+        }
+        int[][] dp = new int[n + 1][upperBound + 1];
+        // base case dp[n][..] = 0 越界条件
+        for (int index = n - 1; index >=0; index--) {
+            for (int reuse = 0; reuse <= upperBound; reuse++) {
+                int curWash = Math.max(drinks[index], reuse) + a;
+                // 剪枝掉递归不到的情况(这种情况还会越界)
+                if (curWash > upperBound) {
+                    break;  // 不用continue而用break
+                }
+                int p1 = Math.max(curWash, dp[index + 1][curWash]);
+                int p2 = Math.max(drinks[index] + b, dp[index + 1][reuse]);
+                dp[index][reuse] = Math.min(p1, p2);
+            }
+        }
+        return dp[0][0];
     }
 
 }
