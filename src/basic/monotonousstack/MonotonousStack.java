@@ -41,5 +41,72 @@ public class MonotonousStack {
         return res;
     }
 
+    // for test
+    public static int[][] rightWay(int[] arr) {
+        int[][] res = new int[arr.length][2];
+        for (int i = 0; i < arr.length; i++) {
+            int leftLessIndex = -1;
+            int rightLessIndex = -1;
+            int cur = i - 1;
+            while (cur >= 0) {
+                if (arr[cur] < arr[i]) {
+                    leftLessIndex = cur;
+                    break;
+                }
+                cur--;
+            }
+            cur = i + 1;
+            while (cur < arr.length) {
+                if (arr[cur] < arr[i]) {
+                    rightLessIndex = cur;
+                    break;
+                }
+                cur++;
+            }
+            res[i][0] = leftLessIndex;
+            res[i][1] = rightLessIndex;
+        }
+        return res;
+    }
+
+    // for test
+    public static int[] getRandomArray(int size, int max) {
+        int[] arr = new int[(int) (Math.random() * size) + 1];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) (Math.random() * max) - (int) (Math.random() * max);
+        }
+        return arr;
+    }
+
+    // for test
+    public static boolean isEqual(int[][] res1, int[][] res2) {
+        if (res1.length != res2.length) {
+            return false;
+        }
+        for (int i = 0; i < res1.length; i++) {
+            if (res1[i][0] != res2[i][0] || res1[i][1] != res2[i][1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // for test
+    public static void main(String[] args) {
+        int size = 10;
+        int max = 20;
+        int testTimes = 100000;
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = getRandomArray(size, max);
+            if (!isEqual(getNearLess(arr), rightWay(arr))) {
+                System.out.println("Oops!");
+                printArray(arr);
+                break;
+            }
+        }
+    }
+
+
+
 
 }
