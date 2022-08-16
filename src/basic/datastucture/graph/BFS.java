@@ -18,6 +18,7 @@ public class BFS {
         set.add(start);
         while (!queue.isEmpty()) {
             Node cur = queue.poll();
+            // 出队才打印
             System.out.println(cur.value);
             for (Node next : cur.nexts) {
                 if (!set.contains(next)) {
