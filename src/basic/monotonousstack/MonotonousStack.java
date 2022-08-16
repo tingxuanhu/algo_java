@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class MonotonousStack {
+
     public static int[][] getNearLess(int[] arr) {
         // res[i] == [leftMostIndex, rightMostIndex]
         int[][] res = new int[arr.length][2];
@@ -29,17 +30,16 @@ public class MonotonousStack {
             }
          }
          // 没有新加元素，将栈中剩余元素依次弹出
-         while (!stack.isEmpty()) {
-             List<Integer> indexes = stack.pop();
-             int leftMostIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
-             for (Integer index : indexes) {
-                 res[index][0] = leftMostIndex;
-                 res[index][1] = -1;
-             }
-         }
-         return res;
-     }
-
+        while (!stack.isEmpty()) {
+            List<Integer> indexes = stack.pop();
+            int leftMostIndex = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
+            for (Integer index : indexes) {
+                res[index][0] = leftMostIndex;
+                res[index][1] = -1;
+            }
+        }
+        return res;
+    }
 
 
 }
