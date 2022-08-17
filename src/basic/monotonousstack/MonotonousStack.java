@@ -92,6 +92,13 @@ public class MonotonousStack {
     }
 
     // for test
+    public static void printArray(int[] arr) {
+        for (int i : arr) {
+            System.out.print(i + ",");
+        }
+    }
+
+    // for test
     public static void main(String[] args) {
         int size = 10;
         int max = 20;
