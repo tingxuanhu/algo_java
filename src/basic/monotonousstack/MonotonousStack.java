@@ -6,6 +6,7 @@ import java.util.Stack;
 
 public class MonotonousStack {
 
+    // 单调栈 --> 求离i位置左右最近的比i位置数小的索引
     public static int[][] getNearLess(int[] arr) {
         // res[i] == [leftMostIndex, rightMostIndex]
         int[][] res = new int[arr.length][2];
@@ -21,6 +22,7 @@ public class MonotonousStack {
                     res[index][1] = i;
                 }
             }
+            // 向栈中加入遍历到的当前元素
             if (!stack.isEmpty() && arr[stack.peek().get(0)] == arr[i]) {
                 stack.peek().add(i);
             } else {

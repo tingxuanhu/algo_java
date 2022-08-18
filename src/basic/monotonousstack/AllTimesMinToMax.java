@@ -3,19 +3,20 @@ package basic.monotonousstack;
 import java.util.Stack;
 
 public class AllTimesMinToMax {
+
     // 暴力解
     public static int max1(int[] arr) {
         int max = Integer.MIN_VALUE;
-        // 范围 i --> j
         for (int i = 0; i < arr.length; i++) {
             for (int j = i; j < arr.length; j++) {
-                int sum = 0;
                 int minNum = Integer.MAX_VALUE;
-                for (int k = i; k < j; k++) {
+                int sum = 0;
+                // k <= j 不要漏掉==情况
+                for (int k = i; k <= j; k++) {
                     sum += arr[k];
                     minNum = Math.min(minNum, arr[k]);
                 }
-                max = Math.max(max, sum * minNum);
+                max = Math.max(max, minNum * sum);
             }
         }
         return max;
@@ -40,14 +41,29 @@ public class AllTimesMinToMax {
             stack.push(i);
         }
         while (!stack.isEmpty()) {
-
+            int idx = stack.pop();
+            max = Math.max(max, (stack.isEmpty() ? preSum[arr.length - 1] : (preSum[arr.length - 1] - preSum[stack.peek()])) * arr[idx]);
         }
-
-
-
-
+        return max;
     }
 
+    public static int[] generateRandomArray() {
+        int[] arr = new int[(int) (Math.random() * 20) + 10];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) (Math.random() * 10);
+        }
+        return arr;
+    }
 
+    public static void main(String[] args) {
+        int testTimes = 200000;
+        for (int i = 0; i < testTimes; i++) {
+            int[] arr = generateRandomArray();
+            if (max1(arr) != maxMonotonousStack(arr)) {
+                System.out.println("FUCK!");
+                break;
+            }
+        }
+    }
 
 }
