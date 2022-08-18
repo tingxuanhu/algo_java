@@ -1,6 +1,6 @@
 # 单调栈
 >   ## 题目
->   + 单调栈实现
+>   + 单调栈实现  ACM模式：https://www.nowcoder.com/practice/2a2c00e7a88a498693568cef63a4b7bb
 >   + 给定只包含正数的arr，子数组sub的累加和乘以sub最小值的结果最大的值为多少？
 >     + // 本题可以在leetcode上找到原题  
         // 测试链接 : https://leetcode.com/problems/maximum-subarray-min-product/  
