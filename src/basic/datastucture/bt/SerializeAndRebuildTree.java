@@ -7,7 +7,7 @@ import java.util.Queue;
 // 二叉树可以通过先序、后续或者层序遍历完成序列化和反序列化,但中序遍历(左头右)会存在二义性
 public class SerializeAndRebuildTree {
     public static class Node {
-        private int value;
+        private final int value;
         private Node left;
         private Node right;
 
