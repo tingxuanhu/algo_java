@@ -27,17 +27,6 @@ package manacher;
 
 public class Manacher {
 
-    // "12321" --> "#1#2#3#2#1#"
-    public static char[] manacherString(String s) {
-        char[] charArr = s.toCharArray();
-        char[] res = new char[s.length() * 2 + 1];
-        int index = 0;
-        for (int i = 0; i < res.length; i++) {
-            res[i] = (i & 1) == 0 ? '#' : charArr[index++];
-        }
-        return res;
-    }
-
     public static int manacher(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -70,6 +59,16 @@ public class Manacher {
         return max - 1;
     }
 
+    // "12321" --> "#1#2#3#2#1#"
+    public static char[] manacherString(String s) {
+        char[] charArr = s.toCharArray();
+        char[] res = new char[s.length() * 2 + 1];
+        int index = 0;
+        for (int i = 0; i < res.length; i++) {
+            res[i] = (i & 1) == 0 ? '#' : charArr[index++];
+        }
+        return res;
+    }
 
     // for test
     public static int right(String s) {
