@@ -1,4 +1,4 @@
-package basic.sort;
+package basic.sort.bfprt;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
