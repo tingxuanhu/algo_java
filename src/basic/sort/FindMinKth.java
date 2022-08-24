@@ -1,9 +1,34 @@
 package basic.sort;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 // 数组中找到第K小的值 O(N)完成
 // bfprt算法
 public class FindMinKth {
+    public static class ValComparator implements Comparator<Integer> {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+        }
+    }
 
+    // 方法一：大根堆
+    public static int minKth1(int[] array, int k) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>();
+        for (int i = 0; i < k; i++) {
+            maxHeap.add(array[i]);
+        }
+        for (int i = k; i < array.length; i++) {
+            if (array[i] < maxHeap.peek()) {
+                maxHeap.poll();
+                maxHeap.add(array[i]);
+            }
+        }
+        return maxHeap.peek();
+    }
+
+    // 方法二：用概率为基础的快排改写
     public static int minKth2(int[] array, int k) {
         int[] arr = copyArray(array);
         return process2(arr, 0, arr.length - 1, k - 1);
