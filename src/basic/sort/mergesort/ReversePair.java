@@ -1,8 +1,8 @@
-package basic.mergesort;
+package basic.sort.mergesort;
 
-public class SmallSum {
+public class ReversePair {
 
-    public static int smallSum(int[] arr) {
+    public static int reversePairNumber(int[] arr) {
         if (arr == null || arr.length < 2) {
             return 0;
         }
@@ -19,35 +19,31 @@ public class SmallSum {
 
     public static int merge(int[] arr, int l, int m, int r) {
         int[] help = new int[r - l + 1];
-        int i = 0;
-        int p1 = l;
-        int p2 = m + 1;
-        int smallSum = 0;
-        while (p1 <= m && p2 <= r) {
-            smallSum += arr[p1] < arr[p2] ? (r - p2 + 1) * arr[p1] : 0;
-            help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
+        int pair = 0;
+        int idx = help.length - 1;
+        int p1 = m;
+        int p2 = r;
+        while (p1 >= l && p2 > m) {
+            pair += arr[p1] > arr[p2] ? (p2 - m) : 0;
+            help[idx--] = arr[p1] > arr[p2] ? arr[p1--] : arr[p2--];
         }
-        while (p1 <= m) {
-            help[i++] = arr[p1++];
+        while (p1 >= l) {
+            help[idx--] = arr[p1--];
         }
-        while (p2 <= r) {
-            help[i++] = arr[p2++];
+        while (p2 > m) {
+            help[idx--] = arr[p2--];
         }
-        for (int j = 0; j < help.length; j++) {
-            arr[l + j] = help[j];
-        }
-        return smallSum;
+        System.arraycopy(help, 0, arr, l, help.length);
+        return pair;
     }
 
-    // for test
     public static int comparator(int[] arr) {
-        if (arr == null || arr.length < 2) {
-            return 0;
-        }
         int res = 0;
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < i; j++) {
-                res += arr[j] < arr[i] ? arr[j] : 0;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    res++;
+                }
             }
         }
         return res;
@@ -107,7 +103,7 @@ public class SmallSum {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            if (smallSum(arr1) != comparator(arr2)) {
+            if (reversePairNumber(arr1) != comparator(arr2)) {
                 printArray(arr1);
                 printArray(arr2);
                 System.out.println("Fucking fucked!");
@@ -116,5 +112,6 @@ public class SmallSum {
         }
         System.out.println("Finished!");
     }
+
 
 }

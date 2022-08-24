@@ -1,4 +1,4 @@
-package basic.partitionandquicksort;
+package basic.sort.partitionandquicksort;
 
 import java.util.Arrays;
 
