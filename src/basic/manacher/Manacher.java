@@ -1,6 +1,6 @@
-package manacher;
+package basic.manacher;
 
-/* manacher 伪代码
+/* basic.manacher 伪代码
    public static int maxPLen(String str) {
        // "12321" --> "#1#2#3#2#1#"
        str -> strx
