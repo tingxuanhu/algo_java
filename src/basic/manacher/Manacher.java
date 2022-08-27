@@ -1,6 +1,6 @@
 package basic.manacher;
 
-/* basic.manacher 伪代码
+/* manacher 伪代码 找出最长回文子串(连续)
    public static int maxPLen(String str) {
        // "12321" --> "#1#2#3#2#1#"
        str -> strx
