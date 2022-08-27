@@ -11,8 +11,9 @@ public class MonotonousStack {
         // res[i] == [leftMostIndex, rightMostIndex]
         int[][] res = new int[arr.length][2];
         Stack<List<Integer>> stack = new Stack<>();
+        // 向单调栈中加入元素
         for (int i = 0; i < arr.length; i++) {
-            // 弹栈判断(栈满足从下至上由小到大的规则)
+            // 弹栈判断(加入当前元素将会使得栈不再满足从下至上由小到大的规则)
             while (!stack.isEmpty() && arr[stack.peek().get(0)] > arr[i]) {
                 List<Integer> indexes = stack.pop();
                 // 弹栈时把弹出的list的左右答案全部安置好
@@ -22,15 +23,17 @@ public class MonotonousStack {
                     res[index][1] = i;
                 }
             }
-            // 向栈中加入遍历到的当前元素
+
+            // 向栈中加入遍历到的当前元素  若是当前元素与栈顶相等 加入它们
             if (!stack.isEmpty() && arr[stack.peek().get(0)] == arr[i]) {
                 stack.peek().add(i);
-            } else {
+            } else {  // 当前元素大于栈顶元素 单独开辟list记录下来
                 ArrayList<Integer> list = new ArrayList<>();
                 list.add(i);
                 stack.push(list);
             }
          }
+
          // 没有新加元素，将栈中剩余元素依次弹出
         while (!stack.isEmpty()) {
             List<Integer> indexes = stack.pop();
