@@ -3,7 +3,7 @@ package basic.datastucture.segmenttree;
 public class SegmentTreeImplementation {
 
     public static class SegmentTree {
-        private final int MAXN;
+        private int MAXN;
         private int[] arr; //
         private int[] sum; //
         private int[] lazy;
@@ -12,13 +12,15 @@ public class SegmentTreeImplementation {
 
         // 把原始数组丢进来初始化线段树
         public SegmentTree(int[] origin) {
-            // 0号位置弃而不用 因此采用1-N+1来代替原来的0-N规模数组 用MAXN记录一下数组长度+1这个大小 方便下标从1开始 原因见README.md
+            // 0号位置弃而不用 因此采用1~N+1来代替原来的0~N规模数组 用MAXN记录一下数组长度+1这个大小 方便下标从1开始 原因见README.md
             MAXN = origin.length + 1;
             arr = new int[MAXN];
+
             // 0号位置弃而不用(为了位运算，具体原因见README.md)
             for (int i = 1; i < MAXN; i++) {
                 arr[i] = origin[i - 1];
             }
+
             // 相关数组配置最长不超过4N的范围即可实现所有信息的保存工作
             sum = new int[MAXN << 2];
             lazy = new int[MAXN << 2];
@@ -28,7 +30,8 @@ public class SegmentTreeImplementation {
 
         //------------------------------ 初始化数组，配置好sum数组的初始化信息 -------------------------------------
         // rt表示在sum中配置到哪个人
-        // 大范围是arr[1..r]上去填，给出l和r的范围递归实现
+        // 大范围是arr[1..r]上去填，给出l和r的范围递归实现子过程 收集答案 就能够完整初始化
+        // 初始化是bottom-up的，不存在top-down分派任务信息的lazy积累和update、change行为，只有sum的统计分派再向上传导的过程
         public void build(int l, int r, int rt) {
             // 递归出口
             if (l == r) {
@@ -52,15 +55,17 @@ public class SegmentTreeImplementation {
         public void update(int L, int R, int C, int l, int r, int rt) {
             // 若是任务完全能够覆盖掉当前范围 那么update方法就直接在当前范围去做事
             if (L <= l && R >= r) {
-                update[rt] = true;  // 意义何在?
+                update[rt] = true;
                 change[rt] = C;
                 sum[rt] = C * (r - l + 1);
                 lazy[rt] = 0; // update可以清零之前积攒的lazy 反之不能够 因此在pushDown方法下放任务时才先看update(时间序早)后看lazy
                 return;
             }
-            // 此时任务是覆盖不了的 必须下放
+
+            // 此时任务是覆盖不了的 必须下放原有update和lazy信息到子节点 且仅下放一层
             int mid = (l + r) >> 1;
             pushDown(rt, mid - l + 1, r - mid);  // 实际画个树 形象化地举例来验证区间范围
+
             // 判断是否左右都需要接收派发的任务还是只用给单侧
             if (L <= mid) {  // 左孩子中有任务需要的范围
                 update(L, R, C, l, mid, rt << 1);
@@ -68,7 +73,9 @@ public class SegmentTreeImplementation {
             if (R > mid) {  // 右孩子中有任务需要的范围
                 update(L, R, C, mid + 1, r,rt << 1 | 1);
             }
-            pushUp(rt); // sum向上传导
+
+            // 从下层收集到信息后 sum向上传导
+            pushUp(rt);
         }
 
         public void add(int L, int R, int C, int l, int r, int rt) {
@@ -92,15 +99,17 @@ public class SegmentTreeImplementation {
             pushUp(rt); // sum向上传导
         }
 
-        // query方法查询L..R范围区间总和  防止溢出 设置返回值为long型
+        // query方法查询L..R范围区间总和
+        // 防止溢出 设置返回值为long型
         public long query(int L, int R, int l, int r, int rt) {
             // 若是任务完全能够覆盖掉当前范围 那么就直接在当前范围去做事
             if (L <= l && R >= r) {
                 return sum[rt];
             }
-            // 任务覆盖不能 下放
+            // 任务覆盖不了 下放
             int mid = (l + r) >> 1;
             pushDown(rt, mid - l + 1, r - mid);
+
             // 子过程收集答案
             long ans = 0;
             if (L <= mid) {
@@ -129,9 +138,11 @@ public class SegmentTreeImplementation {
                 // sum 过程修改为update后的情形
                 sum[rt << 1] = ln * change[rt];
                 sum[rt << 1 | 1] = rn * change[rt];
+
                 // 下放完成 父节点标记撤销 等待执行新的命令
                 update[rt] = false;
             }
+
             // 下放完update信息 接着下放add信息
             if (lazy[rt] != 0) {
                 // 子节点吃掉父节点传导的lazy，原来存的lazy信息不清楚，一整个累加的概念
@@ -140,7 +151,7 @@ public class SegmentTreeImplementation {
                 // sum信息在原有基础上更新
                 sum[rt << 1] += lazy[rt] * ln;
                 sum[rt << 1 | 1] += lazy[rt] * rn;
-                // 更新完毕 父节点lazy清零 执行新任务
+                // 更新完毕 父节点lazy清零
                 lazy[rt] = 0;
             }
         }
