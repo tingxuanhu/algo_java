@@ -2,7 +2,7 @@ package basic.commonsense;
 
 // 记录二进制位有多少个1
 // 暴力方法需要32位挨个尝试  异或可以加速这个过程
-public class Count1Bit {
+public class CountOneBit {
 
     public static int bit1Count(int N) {
         int count = 0;
@@ -15,6 +15,5 @@ public class Count1Bit {
 
         return count;
     }
-
 
 }
