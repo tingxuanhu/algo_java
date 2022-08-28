@@ -42,7 +42,7 @@ public class FallingSquares {
     // 这是考虑空间不爆炸的要求的前提下要做的事情 这样就能在小范围上实现修改
     // 为什么[L,Range] 的右边不取L+Range而要再减1呢？ 因为如果用L+Range那么新的数如果从Range往下落就会被有的高度挡住继续累加，实际高度为0
     public HashMap<Integer, Integer> index(int[][] positions) {
-        TreeSet<Integer> ans = new TreeSet<>();
+        TreeSet<Integer> ans = new TreeSet<>();   // TreeSet对Integer默认会按照从小到大排列  可以自定比较器
         // 加入所有的点进去 而且有序表结构能够使得加进去的从小到大排好序
         for (int[] position : positions) {
             ans.add(position[0]);
