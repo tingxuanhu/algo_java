@@ -56,7 +56,7 @@ public class ReservoirSampling {
             int bagi = 0;
             for (int num = 1; num <= ballNum; num++) {
                 if (num <= 10) {
-                    bag[bag++] = num;
+                    bag[bagi++] = num;
                 } else {
                     if (random(num) <= 10) {
                         bagi = (int) (Math.random() * 10);
