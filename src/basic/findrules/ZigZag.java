@@ -29,21 +29,19 @@ public class ZigZag {
             Bc = Br == Endr ? Bc + 1 : Bc;
             Br = Br == Endr ? Br : Br + 1;
 
-            TopDown != TopDown
+            TopDown = !TopDown;
             System.out.println();
         }
+    }
 
-        public static void printLevel(int[][] m, int Ar, int Ac, int Br, int Bc, boolean TopDown) {
-            if (TopDown) {
-
-
-            } else {
+    public static void printLevel(int[][] m, int Ar, int Ac, int Br, int Bc, boolean TopDown) {
+        if (TopDown) {
 
 
-            }
+        } else {
+
+
         }
-
-
     }
 
 }
