@@ -13,16 +13,22 @@ public class SlidingWindowMaxArray {
         int[] res = new int[arr.length - w + 1];
         int index = 0;
         for (int R = 0; R < arr.length; R++) {
-            // add if possible
+            // 判断新数是否打破了原有的单调性
+            // 若是没有破坏则作为新个体加入其间 若是打破了则不断弹出原有队列中数 直到能够使得新数有容身之所为止
             while (!qMax.isEmpty() && arr[qMax.peekLast()] <= arr[R]) {
                 qMax.pollLast();
             }
+
+            // 只用存下标  因为可以用下标去直接访问arr
             qMax.addLast(R);
-            // remove the oldest index if needed (replace the L pointer for sliding windows)
+
+            // 队头如果下标过期了 先移除
             if (qMax.peekFirst() == R - w) {
                 qMax.pollFirst();
             }
-            // collect results if possible
+
+            // 队头的数没过期并且一定是队列中最大的
+            // 起初几个数 不构成一个窗口大小 不收集答案
             if (R >= w - 1) {
                res[index++] = arr[qMax.peekFirst()];
             }
