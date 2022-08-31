@@ -7,6 +7,7 @@ import java.util.Stack;
 
 public class DoubleEndsQueueToStackAndQueue {
 
+    // 双向链表定义
     public static class Node<T> {
         private final T value;
         private Node<T> last;
@@ -27,7 +28,8 @@ public class DoubleEndsQueueToStackAndQueue {
             if (head == null) {
                 head = cur;
                 tail = cur;
-            } else {
+                // next last仍然是null  初始化的默认值  所以不用修改
+            } else {    // 队列有数  此时 站在新加入数这一侧去考虑 修改它的next和跟它接壤的last
                 cur.next = head;
                 head.last = cur;
                 head = cur;
@@ -36,6 +38,7 @@ public class DoubleEndsQueueToStackAndQueue {
 
         public void pushFromBottom(T value) {
             Node<T> cur = new Node<T>(value);
+            // 新加入的数是第一个数
             if (head == null) {
                 head = cur;
             } else {
@@ -45,6 +48,7 @@ public class DoubleEndsQueueToStackAndQueue {
             tail = cur;
         }
 
+        // 只是弹出具体的值 并不是返回一个数据结构  所以不能直接返回Node而要取其值val
         public T popFromHead() {
             if (head == null) {
                 return null;

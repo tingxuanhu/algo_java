@@ -1,4 +1,4 @@
-package basic.findrules;
+package basic.matrixspecialtrace;
 
 public class ZigZag {
 
@@ -14,7 +14,7 @@ public class ZigZag {
         boolean TopDown = false;  // 自右上向左下打印的记号
 
         // 移动两个点去构建起斜线端点 终止循环条件不是Ar != Endr 而是Ar != Endr + 1
-        while (Ar != Endr) {
+        while (Ar != Endr + 1) {
             // print action
             printLevel(matrix, Ar, Ac, Br, Bc, TopDown);
 
@@ -23,24 +23,29 @@ public class ZigZag {
             // Ar = Ac == Endc ? Ar + 1 : Ar;
             // 如果写成注释这样的顺序，那么Ac第一次抵达Endc的时候 Ar应当是不变化的 而判断时需要变化 矛盾
             // 反过来 先变化的列（自左向右移动）后写，后变化的行先写 就能够规避掉这个边界条件造成的bug
+            // A先向右走 右到不能再往右 就往下
             Ar = Ac == Endc ? Ac + 1 : Ac;
             Ac = Ac == Endc ? Ac : Ac + 1;
 
+            // B先向下走 下到不能再往下 就往右
             Bc = Br == Endr ? Bc + 1 : Bc;
             Br = Br == Endr ? Br : Br + 1;
 
+            // 修改打印方向
             TopDown = !TopDown;
-            System.out.println();
         }
+        System.out.println();
     }
 
     public static void printLevel(int[][] m, int Ar, int Ac, int Br, int Bc, boolean TopDown) {
         if (TopDown) {
-
-
+            while (Ar != Br + 1) {
+                System.out.print(m[Ar++][Ac--] + " ");
+            }
         } else {
-
-
+            while (Br != Ar - 1) {
+                System.out.print(m[Br--][Bc++] + " ");
+            }
         }
     }
 

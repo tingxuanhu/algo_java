@@ -30,7 +30,7 @@ public class ReverseList {
         Node next = null;
 
         while (head != null) {
-            // 定义当前节点的下一个节点
+            // 定义当前节点的下一个节点 这样当当前节点改变指向的时候 当前节点原来这个下一个节点仍然可以被抓住
             next = head.next;
             // 先处理当前节点的任务 --> 当前节点指向上一个节点
             head.next = pre;
