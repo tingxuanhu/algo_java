@@ -6,6 +6,7 @@ public class KMP {
         if (s == null || m == null || m.length() < 1 || m.length() > s.length()) {
             return -1;
         }
+
         char[] str = s.toCharArray();
         char[] match = m.toCharArray();
         // x --> str当前对比到的位置  y --> match当前对比到的位置

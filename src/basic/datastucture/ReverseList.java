@@ -15,7 +15,7 @@ public class ReverseList {
         public DoubleNode next;
         public DoubleNode last;
 
-        public Node(int v) {
+        public DoubleNode(int v) {
             value = v;
         }
     }
