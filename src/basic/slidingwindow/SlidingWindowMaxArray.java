@@ -5,10 +5,12 @@ import java.util.LinkedList;
 // 双端队列里只放下标 要查询数值大小直接调用array[下标]即可 不需要单独定义数据结构
 public class SlidingWindowMaxArray {
 
+    // 假设一个固定大小为w的窗口，依次划过arr，返回每一次滑出状况的最大值
     public static int[] getMaxWindow(int[] arr, int w) {
         if (arr == null || arr.length < w || w < 1) {
             return null;
         }
+
         LinkedList<Integer> qMax = new LinkedList<>();
         int[] res = new int[arr.length - w + 1];
         int index = 0;

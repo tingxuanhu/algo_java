@@ -1,6 +1,6 @@
 package basic.manacher;
 
-/* manacher 伪代码 找出最长回文子串(连续)    --注意 子串 子数组都是连续的  只有子序列可以断开（动规）
+/* basic.manacher 伪代码 找出最长回文子串(连续)    --注意 子串 子数组都是连续的  只有子序列可以断开（动规）
    public static int maxPLen(String str) {
        // "12321" --> "#1#2#3#2#1#"
        str -> strx
