@@ -45,11 +45,6 @@ public class SegmentTreeImplementation {
             pushUp(rt);     // 左右孩子分别收集到sum信息后向父亲节点反馈
         }
 
-        // 左右孩子sum信息向上反馈
-        private void pushUp(int rt) {
-            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
-        }
-
         // ---------------- 实现update方法、add方法和query方法 ------------------------
         // L, R --> 任务给定范围     l,r --> 当前位置存储的信息范围    rt 该轮到谁了   C 目标变动的具体值
         public void update(int L, int R, int C, int l, int r, int rt) {
@@ -119,6 +114,11 @@ public class SegmentTreeImplementation {
                 ans += query(L, R, mid + 1, r, rt << 1 | 1);
             }
             return ans;
+        }
+
+        // 左右孩子sum信息向上反馈
+        private void pushUp(int rt) {
+            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
         // add update query任务执行时 若是当前位置不能被任务完全覆盖掉 那么必须要下放任务给子区间去处理 再收集答案
