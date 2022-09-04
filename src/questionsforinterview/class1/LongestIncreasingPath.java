@@ -38,7 +38,7 @@ public class LongestIncreasingPath {
         int[][] dp = new int[N][M];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                ans = Math.max(ans, processDP(matrix, i, j));
+                ans = Math.max(ans, processDP(matrix, i, j, dp));
             }
         }
         return ans;
