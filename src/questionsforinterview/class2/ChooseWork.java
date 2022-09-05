@@ -39,6 +39,7 @@ public class ChooseWork {
             workFactors[i] = new WorkFactor(hard[i], money[i]);
         }
         Arrays.sort(workFactors, new WorkComparator());
+        // TreeMap按照key的升序默认排列 用TreeMap收集一轮关于hard和money的关系 再从中O(lgN)找到匹配求职者的能驾驭的最好的(如何定义)
 
 
 
