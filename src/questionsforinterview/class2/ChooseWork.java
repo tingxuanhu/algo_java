@@ -2,6 +2,7 @@ package questionsforinterview.class2;
 
 import java.util.Comparator;
 import java.util.Arrays;
+import java.util.TreeMap;
 /*
 给定数组hard和money，长度都为N，hard[i]表示i号工作的难度， money[i]表示i号工作的收入
 给定数组ability，长度都为M，ability[j]表示j号人的能力，每一号工作，都可以提供无数的岗位，难度和收入都一样
@@ -38,6 +39,7 @@ public class ChooseWork {
             workFactors[i] = new WorkFactor(hard[i], money[i]);
         }
         Arrays.sort(workFactors, new WorkComparator());
+
 
 
     }
