@@ -30,18 +30,40 @@ public class ChooseWork {
         }
     }
 
+    // ZuoChengYun的算法里是直接输入了hard和money合并起来的数据类型
     public static int[] bestIncome(int[] hard, int[] money, int[] ability) {
         if (hard == null || hard.length == 0 || hard.length != money.length || ability == null || ability.length == 0) {
             return new int[] {0};
         }
-        WorkFactor[] workFactors = new WorkFactor[hard.length]();
+        WorkFactor[] workFactors = new WorkFactor[hard.length];
         for (int i = 0; i < hard.length; i++) {
             workFactors[i] = new WorkFactor(hard[i], money[i]);
         }
         Arrays.sort(workFactors, new WorkComparator());
         // TreeMap按照key的升序默认排列 用TreeMap收集一轮关于hard和money的关系 再从中O(lgN)找到匹配求职者的能驾驭的最好的(如何定义)
 
+        // 有序表依照key默认升序排列，找一个人能够负担的同等能力岗位可以在O(lgN)的水平实现
+        //       hard     money
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        map.put(workFactors[0].hard, workFactors[0].income);
+        for (int i = 1; i < workFactors.length; i++) {
+            WorkFactor pre = workFactors[0];
+            // 因为之前已经用比较器排序，当难度相当时income大的排在前先进入比较，所以当hard相等时第一个进来的保留就行
+            // 因此只需要比较当hard不同的时候，如果income更大就替换
+            if (workFactors[i].hard != pre.hard && workFactors[i].income > pre.income) {
+                pre = workFactors[i];
+                map.put(pre.hard, pre.income);
+            }
+        }
 
-
+        // 准备好查询用的有序表，就来书写答案
+        int M = ability.length;
+        int[] ans = new int[M];
+        for (int i = 0; i < ability.length; i++) {
+            // 不能直接赋floorKey  因为可能是null(能力比最低要求还差) 找不到工作
+            Integer key = map.floorKey(ability[i]);
+            ans[i] = key == null ? 0 : map.get(key);
+        }
+        return ans;
     }
 }
