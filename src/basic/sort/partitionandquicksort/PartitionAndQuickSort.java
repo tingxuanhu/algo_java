@@ -2,7 +2,7 @@ package basic.sort.partitionandquicksort;
 
 import java.util.Arrays;
 
-public class PartitionAndQuickSort {
+public class  PartitionAndQuickSort {
 
     // arr[l..r]上，以arr[r]位置的数做划分值   <=arr[r]  >arr[r]
     public static int partition1(int[] arr, int l, int r) {

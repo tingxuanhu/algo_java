@@ -26,7 +26,6 @@ package basic.manacher;
     */
 
 public class Manacher {
-
     public static int manacher(String s) {
         if (s == null || s.length() == 0) {
             return 0;
