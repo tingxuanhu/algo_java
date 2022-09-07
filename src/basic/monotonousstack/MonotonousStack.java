@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Stack;
 
 public class MonotonousStack {
-
     // 单调栈 --> 求离i位置左右最近的比i位置数小的索引
     public static int[][] getNearLess(int[] arr) {
         // res[i] == [leftMostIndex, rightMostIndex]

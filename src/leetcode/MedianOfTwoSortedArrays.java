@@ -2,8 +2,13 @@ package leetcode;
 
 public class MedianOfTwoSortedArrays {
 
-    /*  第k小的数（本题找中位数）分三类情况讨论
-    1) k <= 短数组长度  --> 两个数组分别调用前k个数组成一对等长数组 调用getUpMedian
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+
+    }
+
+    /* 找第k小的数的类别 ---> 分三类情况讨论
+    1) k <= 短数组长度  --> 两个数组分别调用前k个数组成一对等长数组 调用getUpMedian(本题似乎应该最多等于 不会小于短数组长度)
     2) 短数组长度 < k  <= 长数组长度    举例讨论
         arr1 = [1  2  3  4]
         arr2 = [1' 2' 3' 4' 5' 6' 7' 8']      k = 7
@@ -18,10 +23,20 @@ public class MedianOfTwoSortedArrays {
         因此不能直接递归调用 会差一个  要人工淘汰两个  手动验证2  6'是不是第10小
         此时淘汰了2+6=8个  递归调用4个数 能凑出第8+2=10小的数
     */
-    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    public static int findKthNum(int[] nums1, int[] nums2, int kth) {
+        int[] longs = nums1.length >= nums2.length ? nums1 : nums2;
+        int[] shorts = nums1.length < nums2.length ? nums1 : nums2;
+        int l = longs.length;
+        int s = shorts.length;
+
+        if (kth <= s) {
+
+        }
+
 
 
     }
+
 
     /*  下面的方法   输入参数  arr1[L1..R1]  arr2[L2..R2] 分别有序  等长
     因为二者等长，加和必为偶数，因此中位数不是某个数

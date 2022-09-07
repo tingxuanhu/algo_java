@@ -10,7 +10,6 @@ public class SlidingWindowMaxArray {
         if (arr == null || arr.length < w || w < 1) {
             return null;
         }
-
         LinkedList<Integer> qMax = new LinkedList<>();
         int[] res = new int[arr.length - w + 1];
         int index = 0;
