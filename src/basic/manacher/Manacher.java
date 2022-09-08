@@ -6,13 +6,13 @@ package basic.manacher;
        str -> strx
 
        int[] pArr = new int[strx.length];
-       int R = -1;  // 回文区域右边界更新到哪儿失败(第一个违规位置) 起始定为-1
-       int C = -1;  // 回文区域中心点
+       int R = -1;  // 回文区域右边界  更新到哪儿失败(第一个违规位置) 起始定为-1
+       int C = -1;  // 回文区域中心点  C的更新没有自主性  是R扩到更右边的时候 也就是R修改的时候 彼时的C
 
        for (int i = 0; i < strx.length; i++) {
        if (i在R外） {
            暴力往外扩; // R变大   O(N)
-       } else {
+       } else {  // i在R内  压线也算i在R内
            if (i关于C对称点i'的回文区域均落在L..R范围内) {
                pArr[i] = pArr[i'];   O(1)
            } else if (i关于C对称点i'的回文区域覆盖到L..R范围外) {
