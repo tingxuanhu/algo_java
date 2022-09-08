@@ -1,10 +1,40 @@
 package leetcode;
 
+// https://leetcode.cn/problems/median-of-two-sorted-arrays/submissions/
 public class MedianOfTwoSortedArrays {
 
-    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
-
-
+    // 根据两个数组总长度的奇偶性 进行分类讨论
+    // 注意结果是double类型  原因何在？  int类型两个数加和可能成为long型 --> 除以2可能是double型
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int size = m + n;
+        boolean even = size % 2 == 0;
+        // 注意分边界条件的思路  --> nums1  nums2
+        if (m != 0 && n != 0) {
+            if (even) {
+                // 注意 findKthNum的k是从下标1开始的  没有第0小的数  而后面有一个数组为空的情况直接返回某一个数组的中位数信息的时候 就是从数组本身的0下标开始的
+                // 所以前后的下标表达是不一样的  注意
+                // 还要注意 double类型处理的时候 除以的分母的数值后面加上D  相当于python里打上小数点的写法 可以告诉Java分母是浮点数 应当保留小数而非截断之
+                return (double) (findKthNum(nums1, nums2, size / 2) + findKthNum(nums1, nums2, size / 2 + 1)) / 2D;
+            } else {
+                return findKthNum(nums1, nums2, size / 2 + 1);
+            }
+        } else if (m != 0) {  // n == 0
+            if (even) {
+                return (double) (nums1[(size - 1) / 2] + nums1[size / 2]) / 2D;
+            } else {
+                return nums1[size / 2];
+            }
+        } else if (n != 0) {  // m == 0
+            if (even) {
+                return (double) (nums2[(size - 1) / 2] + nums2[size / 2]) / 2D;
+            } else {
+                return nums2[size / 2];
+            }
+        } else {  // m == 0   n == 0
+            return 0;
+        }
     }
 
     /* 找第k小的数的类别 ---> 分三类情况讨论
@@ -20,21 +50,34 @@ public class MedianOfTwoSortedArrays {
         但是 虽然短数组长数组获得的结果等长 却不能直接递归
         因为在短数组中淘汰了1个 长数组中淘汰了5个 一共淘汰了6个 离k=10还差4个
         而递归调用6个数中间会求出第3小的数 加起来求到的是6+3=第9小的数  还差一个
-        因此不能直接递归调用 会差一个  要人工淘汰两个  手动验证2  6'是不是第10小
+        因此不能直接递归调用 会差一个  要人工淘汰/遴选两个  手动验证2  6'是不是第10小
         此时淘汰了2+6=8个  递归调用4个数 能凑出第8+2=10小的数
     */
-    public static int findKthNum(int[] nums1, int[] nums2, int kth) {
-        int[] longs = nums1.length >= nums2.length ? nums1 : nums2;
-        int[] shorts = nums1.length < nums2.length ? nums1 : nums2;
+    public static int findKthNum(int[] arr1, int[] arr2, int kth) {
+        int[] longs = arr1.length >= arr2.length ? arr1 : arr2;
+        int[] shorts = arr1.length < arr2.length ? arr1 : arr2;
         int l = longs.length;
         int s = shorts.length;
-
+        // 上述情况1）
         if (kth <= s) {
-
+            return getUpMedian(shorts, 0, kth - 1, longs, 0, kth - 1);
         }
-
-
-
+        // 上述情况3）
+        if (kth > l) {
+            // 手动遴选两个
+            if (shorts[kth - l - 1] >= longs[l - 1]) {   // 2 当选
+                return shorts[kth - l - 1];
+            }
+            if (longs[kth - s - 1] >= shorts[s - 1]) {   // 8' 当选
+                return longs[kth - s - 1];
+            }
+            return getUpMedian(shorts, kth - l, s - 1, longs, kth - s, l - 1);
+        }
+        // 上述情况2）
+        if (longs[kth - s - 1] >= shorts[s - 1]) {
+            return longs[kth - s - 1];
+        }
+        return getUpMedian(shorts, 0, s - 1, longs, kth - s, kth - 1);
     }
 
 
@@ -81,7 +124,7 @@ public class MedianOfTwoSortedArrays {
                 return arr1[mid1];
             }
             // 如果长度均为奇数  --> 用长度与上1
-            if ((R1 - L1 + 1) & 1 == 1) {
+            if (((R1 - L1 + 1) & 1) == 1) {
                 // 3 > 3'
                 if (arr1[mid1] > arr2[mid2]) {
                     if (arr1[mid1 - 1] <= arr2[mid2]) {
@@ -106,15 +149,11 @@ public class MedianOfTwoSortedArrays {
                     R2 = mid2;
                 }
             }
-            // 跳出循环时候必然剩下l1和r2(r1和l1会重叠过去)  来比一下谁更可能
-            // 否定掉的一侧必然已经有比上中位数少1这么多的数存在 因此接下来接的就是上中位数
-            // 那么剩下的两个数中谁更小就更先接触到比上中位数少1这么多的数 成为上中位数
-            return Math.min(arr1[L1], arr2[R2]);
         }
-
+        // 跳出循环时候必然剩下l1和r2(r1和l1会重叠过去)  来比一下谁更可能
+        // 否定掉的一侧必然已经有比上中位数少1这么多的数存在 因此接下来接的就是上中位数
+        // 那么剩下的两个数中谁更小就更先接触到比上中位数少1这么多的数 成为上中位数
+        return Math.min(arr1[L1], arr2[R2]);
     }
-
-
-
 
 }
