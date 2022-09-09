@@ -12,7 +12,11 @@ package basic.manacher;
        for (int i = 0; i < strx.length; i++) {
        if (i在R外） {
            暴力往外扩; // R变大   O(N)
-       } else {  // i在R内  压线也算i在R内
+       } else {
+           // i在R内的情况(压着R也算i在R内）
+           // 此时必然有拓扑关系 --> 刚来到i发现i在R内 证明R一定是之前更新的 --> C必然在i的左侧而不可能到右侧去
+           // 也就是 C < i < R --> 整体模样 [L ...  C ... i ... R]
+           // 此时可以用i找关于C的对称点i'   --> 整体模样 [L ... i' ...  C ... i ... R]
            if (i关于C对称点i'的回文区域均落在L..R范围内) {
                pArr[i] = pArr[i'];   O(1)
            } else if (i关于C对称点i'的回文区域覆盖到L..R范围外) {
