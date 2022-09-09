@@ -108,6 +108,8 @@ public class Manacher {
         int testTimes = 100000;
         for (int i = 0; i < testTimes; i++) {
             String s = getRandomString(possibilities, setSize);
+
+            char[] test = manacherString(s);
             if (manacher(s) != right(s)) {
                 System.out.println("Oops!");
             }
