@@ -52,7 +52,7 @@ public class Manacher {
                     break;
                 }
             }
-            // 扩成功
+            // 扩成功的时候 刷新右边界R 根据R去确定C
             if (i + pArr[i] > R) {
                 C = i;
                 R = i + pArr[i];
