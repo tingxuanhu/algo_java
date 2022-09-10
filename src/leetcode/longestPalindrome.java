@@ -11,7 +11,7 @@ public class longestPalindrome {
         // 本题利用manacher找出pArr最大值即是i取相对应位置的时候 所构成的最长回文子串
         // 返回pArr中最大值以及对应的i 即能够获得半径 和中心 然后能够返回对应的子串   因此核心仍然是实现manacher算法
 
-    public String longestPalindrome(String s) {
+    public static String findLongestPalindrome(String s) {
         if (s == null || s.length() == 0) {
             return null;
         }
@@ -50,13 +50,13 @@ public class longestPalindrome {
                 for (int j = i - max + 2; j <= i + max - 2; j += 2) {
                     ans[cnt++] = str[j];
                 }
-                return ans.toString();
+                return String.valueOf(ans);
             }
         }
         return null;
     }
 
-    public char[] toManacherString(String s) {
+    public static char[] toManacherString(String s) {
         char[] str = s.toCharArray();
         char[] ans = new char[str.length * 2 + 1];
         int index = 0;  // 控制准备安放哪一个str
@@ -66,6 +66,4 @@ public class longestPalindrome {
         return ans;
     }
 
-
-    
 }
