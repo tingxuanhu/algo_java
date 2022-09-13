@@ -5,6 +5,7 @@ package leetcode;
  * @version 2022/9/12 18:44
  */
 
+// 改进为傻缓存表的形式
 public class RegularMatching {
 
     public boolean isMatch(String s, String p) {
@@ -17,6 +18,24 @@ public class RegularMatching {
             return false;
         }
         return process(str, pattern, 0, 0);
+    }
+
+    // " " can be handled by the following method(skip all for loops), however, null cannot be processed successfully
+    public static boolean isValid(char[] str, char[] pattern) {
+        // str cannot include '.' or '*'
+        for (char cha : str) {
+            if (cha == '.' || cha == '*') {
+                return false;
+            }
+        }
+
+        // '*' cannot be the first element or followed by itself
+        for (int i = 0; i < pattern.length; i++) {
+            if (pattern[i] == '*' && (i == 0 || pattern[i - 1] == '*')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // compare str[si..] and pattern[pi..]
@@ -54,33 +73,14 @@ public class RegularMatching {
         if (process(str, pattern, si, pi + 2)) {
             return true;
         }
-
         while (si < str.length && (str[si] == pattern[pi] || pattern[pi] == '.')) {
             if (process(str, pattern, si + 1, pi + 2)) {
                 return true;
             }
             si++;
         }
-
         return false;
     }
 
-    // " " can be handled by the following method(skip all for loops), however, null cannot be processed successfully
-    public static boolean isValid(char[] str, char[] pattern) {
-        // str cannot include '.' or '*'
-        for (char cha : str) {
-            if (cha == '.' || cha == '*') {
-                return false;
-            }
-        }
-
-        // '*' cannot be the first element or followed by itself
-        for (int i = 0; i < pattern.length; i++) {
-            if (pattern[i] == '*' && (i == 0 || pattern[i - 1] == '*')) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }
