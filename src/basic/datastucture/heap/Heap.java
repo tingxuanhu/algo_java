@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Heap {
-
     public static class MyMaxHeap {
         private final int limit;
         private final int[] heap;

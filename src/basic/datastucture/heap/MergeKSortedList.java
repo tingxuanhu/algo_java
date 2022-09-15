@@ -26,7 +26,7 @@ public class MergeKSortedList {
             return null;
         }
 
-        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(new ListNodeComparator());
+        PriorityQueue<ListNode> heap = new PriorityQueue<>(new ListNodeComparator());
 
         for (ListNode list : lists) {
             if (list != null) {
