@@ -3,6 +3,7 @@ package basic.hardcode;
 /**
  * @author TingxuanHu
  * @version 2022/9/25 22:43
+ * @link <a href="https://leetcode.cn/problems/rotated-digits/">...</a>
  */
 
 public class RotateDigits {
