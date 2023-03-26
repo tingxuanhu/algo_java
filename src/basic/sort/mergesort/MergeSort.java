@@ -27,16 +27,16 @@ public class MergeSort {
         }
 
         int N = arr.length;
-        int step = 1;
-        while (step < N) {
+        int mergeSize = 1;   // 当前有序的左组长度
+        while (mergeSize < N) {
             // 初始化左端点位置
             int l = 0;
             while (l < N) {
-                if (step >= N - l) {
+                if (mergeSize >= N - l) {
                     break;
                 }
                 int m = l + step - 1;
-                int r = m + Math.min(step, N - m - 1);
+                int r = m + Math.min(mergeSize, N - m - 1);
                 merge(arr, l, m, r);
                 l = r + 1;
             }
