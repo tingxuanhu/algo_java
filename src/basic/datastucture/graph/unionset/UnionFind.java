@@ -20,9 +20,9 @@ public class UnionFind {
     }
 
     public static class UnionSet<V> {
-        public HashMap<V, Node<V>> nodes;
-        public HashMap<Node<V>, Node<V>> parents;
-        public HashMap<Node<V>, Integer> sizeMap;
+        public HashMap<V, Node<V>> nodes;   // 样本对应自己包完的那个圈
+        public HashMap<Node<V>, Node<V>> parents;    // 用parents这张表替代父子关系需要用到的指针
+        public HashMap<Node<V>, Integer> sizeMap;    // 记录代表节点这个集合的大小,只记录代表节点，其他节点不用记录
 
         // 初始化的时候把所有样本构成的列表给进来,用以初始化三个HashMap
         public UnionSet(List<V> values) {
