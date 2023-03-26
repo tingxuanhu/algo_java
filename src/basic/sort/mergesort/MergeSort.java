@@ -30,7 +30,7 @@ public class MergeSort {
         int mergeSize = 1;   // 当前有序的左组长度
         while (mergeSize < N) {
             int L = 0;      // 初始化左端点位置，枚举每次左半边组的开始位置
-            while (l < N) {
+            while (L < N) {
                 int M = L + mergeSize - 1;   // 理论上能算出来中点
                 if (M >= N) {  // 最后这一组不够凑齐一整组左半边和右半边，甚至左半边都没凑齐，证明一定是有序的，不需merge最后一组了
                     break;
