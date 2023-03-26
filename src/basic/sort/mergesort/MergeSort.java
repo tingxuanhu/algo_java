@@ -29,22 +29,25 @@ public class MergeSort {
         int N = arr.length;
         int mergeSize = 1;   // 当前有序的左组长度
         while (mergeSize < N) {
-            // 初始化左端点位置
-            int l = 0;
+            int L = 0;      // 初始化左端点位置，枚举每次左半边组的开始位置
             while (l < N) {
-                if (mergeSize >= N - l) {
+                int M = L + mergeSize - 1;   // 理论上能算出来中点
+                if (M >= N) {  // 最后这一组不够凑齐一整组左半边和右半边，甚至左半边都没凑齐，证明一定是有序的，不需merge最后一组了
                     break;
                 }
-                int m = l + step - 1;
-                int r = m + Math.min(mergeSize, N - m - 1);
-                merge(arr, l, m, r);
-                l = r + 1;
+                
+                // 找完了当前的左半边，找右半边(M + 1, R)
+                int R = Math.min(M + mergeSize, N - 1);   // 保证凑不齐的情况下，R取到整体数组最后位置，不越界
+                merge(arr, L, M, R);
+                L = R + 1;
             }
+            
             // 防止当N接近系统最大值时，N/2 乘以2会溢出变负数
-            if (step > N / 2) {
+            if (mergeSize > N / 2) {
                 break;
             }
-            step <<= 1;
+            
+            mergeSize <<= 1;
         }
     }
 
